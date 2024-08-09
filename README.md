@@ -2,5 +2,5 @@
 
 ## Subtitle
 
-### Section title
+### Section Title
 * aaa
