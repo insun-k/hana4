@@ -14,6 +14,3 @@ de22
 new
 dev001
 dev002
-dev003
-dev004
-dev005
