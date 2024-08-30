@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>수강신청</title>
+  </head>
+
+    <div>
+      <button id="btnKor">국어수업 요일 선택 &gt;</button>
+      <label id="kor">요일을 선택하세요!</label>
+    </div>
+    <div style="margin-top: 1rem">
+      <button id="btnMath" onclick="setWeek('math')">수학수업 요일 선택 &gt;</button>
+      <label id="math">요일을 선택하세요!</label>
+    </div>
+
+    <script>   // 버튼 누르는 방법 2가지(국어 : addeventlistener, 수학 : onclick)
+      const WEEKS = '일월화수목금토';
+      const getNextWeek = () => {
+      let widx = -1;
+      return () => {
+          // widx는 이 안에서만 사용 가능
+        widx += 1; // side-effect!
+        if (widx >= WEEKS.length) widx = 0;
+        return `${WEEKS[widx]}요일`;
+        };
+      };
+
+      const nextWeekFunction = {
+        kor: getNextWeek(),
+        math: getNextWeek()
+      };
+
+      const setWeek = (subject) => {
+        // console.log('setWeek',subject);
+        // const nextWeekFn = subject == 'math' ? mathWeek : korWeek;
+        document.getElementById(subject).innerText = nextWeekFunction[subject]();
+      };
+
+      window.addEventListener(
+        'load', () => {
+          document.getElementById('btnKor').addEventListener('click',() => {
+            setWeek('kor');
+          });
+      });
+
+
+
+      // 테스트 코드 추가하기
+    </script>
+  </body>
+</html>
