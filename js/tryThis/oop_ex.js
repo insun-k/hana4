@@ -101,36 +101,79 @@ function ex_prototype() {
 }
 
 function ex_stack_queue() {
-  class Stack {
-    #arr = [];
-    // new Stack([1,2,3]) => [1,2,3] 받아야하므로 constructor에 인자 필요
-    // 1) new Stack(1,2,3) => [1,2,3]
-    // 2) new Stack([1,2,3]) => [ [1,2,3] ]
-    // 3) new Stack([[1,2,3]]) => [[ [1,2,3]]]
-    // 2번 패턴이면 args[0] => 배열 형태
+  // Stack, Queue, ArrayList 에서 사용하는 공통 기능
+  class Collection {
+    #arr = []; //# => private -> side effect 막음
     constructor(...args) {
       this.#arr.push(...args);
-      // this.arr = Array.isArray(args[0]) ? [...args] : args;
-      // => 2번 형태 고려한 풀이 => 3번일 경우 좋지 않은 코드
     }
 
-    // 1) push(1)   -> arguments.length === 1
-    // 2) push(1,2)
-    push(...args) {
-      // front-end
-      this.#arr = [...this.#arr, ...args];
+    get _arr() {
       return this.#arr;
     }
 
-    pop() {
-      return this.#arr.pop();
+    push(...args) {
+      // front-end
+      this.#arr.push(...args);
+      return this.#arr;
+    }
+
+    get peek() {
+      return this.#isQueue() ? this.#arr[0] : this.#arr.at(-1);
+    }
+
+    get poll() {
+      return this.#isQueue() ? this.#arr.shift() : this.#arr.pop();
+    }
+
+    remove() {
+      return this.poll;
+    }
+
+    get length() {
+      return this.#arr.length;
+    }
+
+    get isEmpty() {
+      return !this.#arr.length;
+    }
+
+    clear() {
+      this.#arr.length = 0;
     }
 
     toArray() {
-      return this.#arr;
+      return this.#isQueue() ? this.#arr.toReversed() : this.#arr;
+    }
+
+    print() {
+      console.log(`<${this.construcotr.name} : ${this.toArray()}>`);
+    }
+
+    #isQueue() {
+      //console.log(">>", this.constructor.name); // 자식까지 정확히 구별 -> .name
+      return this instanceof Queue;
     }
   }
 
+  class Stack extends Collection {
+    pop() {
+      return this._arr.pop();
+    }
+  }
+
+  class Queue extends Collection {
+    enqueue(...args) {
+      this.push(...args);
+      return this._arr;
+    }
+
+    dequeue() {
+      return this._arr.shift();
+    }
+  }
+
+  // stack 테스트
   const stack = new Stack(); // or new Stack([1,2]); // ⇐⇒ (1,2)
   assert.deepStrictEqual(stack.toArray(), []);
   stack.push(3); // 추가하기
@@ -147,30 +190,23 @@ function ex_stack_queue() {
   stack2.push(4, 5);
   assert.deepStrictEqual(stack2.toArray(), [1, 2, 2, 4, 5]);
 
+  assert.deepStrictEqual(stack2.peek, 5);
+  assert.deepStrictEqual(stack2.poll, 5);
+  assert.deepStrictEqual(stack2.toArray(), [1, 2, 2, 4]);
+
+  assert.deepStrictEqual(stack2.remove(), 4);
+  assert.deepStrictEqual(stack2.toArray(), [1, 2, 2]);
+
   // side-effect 테스트
   stack2.arr = [1, 2, 3]; // => error   => arr에 # 붙이기
   assert.notDeepStrictEqual(stack2.toArray(), [1, 2, 3]);
 
-  class Queue {
-    #arr = [];
+  stack2.clear();
+  assert.deepStrictEqual(stack2.toArray(), []);
 
-    constructor(...args) {
-      this.#arr.push(...args);
-    }
+  // -----------------------------------
 
-    enqueue(...args) {
-      this.#arr.unshift(...args.reverse());
-    }
-
-    dequeue() {
-      return this.#arr.pop();
-    }
-
-    toArray() {
-      return this.#arr;
-    }
-  }
-
+  // queue 테스트
   const queue = new Queue();
   assert.deepStrictEqual(queue.toArray(), []);
   queue.enqueue(3); // 추가하기
@@ -181,6 +217,14 @@ function ex_stack_queue() {
   assert.deepStrictEqual(queue.toArray(), [2]);
   queue.enqueue(5, 6); // 추가하기
   assert.deepStrictEqual(queue.toArray(), [6, 5, 2]);
+
+  assert.deepStrictEqual(queue.peek, 2);
+  assert.deepStrictEqual(queue.poll, 2);
+  assert.deepStrictEqual(queue.remove(), 5);
+  assert.deepStrictEqual(queue.toArray(), [6]);
+
+  //   console.log("stack.isQueue", stack.isQueue());
+  //   console.log("queue.isQueue", queue.isQueue());
 }
 
 ex_stack_queue();
