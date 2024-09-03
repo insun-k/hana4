@@ -32,6 +32,8 @@ function ex1_add() {
   // console.log(itAdd.next(2).value);
 }
 
+const assert = require("assert");
+
 const LINE2 = [
   "신도림",
   "성수",
@@ -83,33 +85,66 @@ const LINE2 = [
   "을지로입구",
 ];
 class Subway {
+  #station1; // private
+  #station2;
   constructor(station1, station2) {
-    this.station1 = station1;
-    this.station2 = station2;
+    // this.station1 = station1;
+    // this.station2 = station2;
 
-    const idx1 = LINE2.indexOf(station1);
-    console.log("🚀 ~ Subway ~ constructor ~ idx1:", idx1);
-    const idx2 = LINE2.indexOf(station2);
+    this.#station1 = station1;
+    this.#station2 = station2;
+
+    this.idx1 = LINE2.indexOf(station1);
+    this.idx2 = LINE2.indexOf(station2);
   }
 
-  saveArr() {
-    const arr = [];
-    console.log(this.idx1);
-    for (let i = this.idx1; i <= this.idx2; i++) {
-      arr.push(LINE2[i]);
+  *[Symbol.iterator]() {
+    if (this.idx1 > this.idx2) {
+      for (let i = this.idx1; i < LINE2.length; i++) {
+        yield LINE2[i];
+      }
+      for (let i = 0; i <= this.idx2; i++) {
+        yield LINE2[i];
+      }
+    } else {
+      for (let i = this.idx1; i <= this.idx2; i++) {
+        yield LINE2[i];
+      }
     }
-    return arr;
   }
-  //   *[Symbol.iterator]() {
-  //     for (let i = this.idx1; i <= this.idx2; i++) {
-  //       console.log(LINE2[i]);
-  //     }
-  //   }
 }
 
 const routes = new Subway("문래", "신림");
-console.log(routes.saveArr());
-// const it1 = routes[Symbol.iterator]();
-// console.log(it1.next());
-// console.log([...routes]); // [ '문래', '대림', '구로디지털단지', '신대방', '신림' ]
-// console.log(it1.next()); // { value: '문래', done: false }
+const it1 = routes[Symbol.iterator]();
+console.log([...routes]); // [ '문래', '대림', '구로디지털단지', '신대방', '신림' ]
+while (true) {
+  const x = it1.next();
+  console.log(x);
+  if (x.done) break;
+}
+
+console.log("---------------------------------");
+const routes2 = new Subway("구로디지털단지", "성수"); // 32개 정거장
+console.log([...routes2]); // ['구로디지털단지', '신대방', ..., '성수']
+const it2 = routes2[Symbol.iterator]();
+let count2 = 0;
+while (true) {
+  count2 += 1;
+  const x = it2.next();
+  //console.log(x);
+  if (x.done) break;
+}
+assert.deepStrictEqual(count2 - 1, 32);
+
+const route3 = new Subway("문래", "합정");
+const it3 = route3[Symbol.iterator]();
+let count3 = 0;
+while (true) {
+  count3 += 1;
+  const x = it3.next();
+  //console.log(x);
+  if (x.done) break;
+}
+assert.deepStrictEqual(count3 - 1, 46);
+
+const route4 = new Subway("신도림", "을지로입구");
