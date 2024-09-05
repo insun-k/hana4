@@ -32,7 +32,7 @@ function ex1_add() {
   // console.log(itAdd.next(2).value);
 }
 
-const assert = require("assert");
+import assert from "assert";
 const { stat } = require("fs");
 
 const LINE2 = [

@@ -1,4 +1,5 @@
-const assert = require("assert");
+//const assert = require("assert");
+import assert from "assert"; // => esm으로 변경
 
 function ex1() {
   function fmt([label, unit], price) {

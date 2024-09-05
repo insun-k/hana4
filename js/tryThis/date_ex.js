@@ -1,5 +1,5 @@
 const moment = require("moment");
-const assert = require("assert");
+import assert from "assert";
 
 // 내 풀이 - moment 사용
 function ex1() {

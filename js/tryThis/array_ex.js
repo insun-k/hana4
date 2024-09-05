@@ -1,4 +1,4 @@
-const assert = require("assert");
+import assert from "assert";
 
 function ex1() {
   // 문제) check prime number

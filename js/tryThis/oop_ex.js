@@ -1,4 +1,4 @@
-const assert = require("assert");
+import assert from "assert";
 
 function ex_proxy() {
   class Emp {
@@ -159,7 +159,7 @@ function ex_stack_queue() {
   class Stack extends Collection {
     pop() {
       return this._arr.pop();
-    }
+    }const stack = new Stack()
   }
 
   class Queue extends Collection {
@@ -174,7 +174,7 @@ function ex_stack_queue() {
   }
 
   // stack 테스트
-  const stack = new Stack(); // or new Stack([1,2]); // ⇐⇒ (1,2)
+  ; // or new Stack([1,2]); // ⇐⇒ (1,2)
   assert.deepStrictEqual(stack.toArray(), []);
   stack.push(3); // 추가하기
   assert.deepStrictEqual(stack.toArray(), [3]);
