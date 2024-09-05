@@ -26,3 +26,6 @@ let r; // = undefined;
 let q; // = undefined;
 r = q * 10;
 q = 1;
+
+let aaa = bbb * 10;
+let bbb;

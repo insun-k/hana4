@@ -1,4 +1,4 @@
-const assert = require("assert");
+import assert from "assert";
 
 function stack_queue_iterator() {
   class Collection {
@@ -42,31 +42,24 @@ function stack_queue_iterator() {
     }
 
     // iterator로 작성
-    [Symbol.iterator]() {
-      let idx = 0;
-      const arr = this.toArray();
-      return {
-        next: () => ({
-          value: arr[idx++],
-          done: this.length < idx,
-        }),
-      };
-    }
-
-    //   [Symbol.iterator]() {
-    //     let idx = 0;
-    //     return {
-    //       next: () => {
-    //         return { value: this.#arr[idx++], done: idx > this.length };
-    //       },
-    //     };
-
-    // *[Symbol.iterator]() {
-    //   for (let i = 0; i < this.length; i += 1) {
-    //     //yield this.toArray()[i];
-    //     yield this.#isQueue ? this.#arr[i] : this.#arr.toReversed();
-    //   }
+    // [Symbol.iterator]() {
+    //   let idx = 0;
+    //   const arr = this.toArray();
+    //   return {
+    //     next: () => ({
+    //       value: arr[idx++],
+    //       done: this.length < idx,
+    //     }),
+    //   };
     // }
+
+    // generator로 작성
+    *[Symbol.iterator]() {
+      for (let i = 0; i < this.length; i += 1) {
+        //yield this.toArray()[i];
+        yield this.#isQueue ? this.#arr[i] : this.#arr.toReversed();
+      }
+    }
 
     toArray() {
       return this.#isQueue() ? this.#arr.toReversed() : this.#arr;
@@ -106,7 +99,6 @@ function stack_queue_iterator() {
   }
 
   // -------------------------- stack 테스트
-
   // iterator 테스트
   const stack = new Stack();
   stack.push(1, 2, 3);
@@ -115,10 +107,11 @@ function stack_queue_iterator() {
   const len = stack.length;
   for (let i = 0; i < len; i++) {
     stack.poll;
-    // assert.deepStrictEqual(itStack.next(), {   ??? 여기 왜 안되지
-    //   value: stack.poll,
-    //   done: false,
-    // });
+    assert.deepStrictEqual(itStack.next(), {
+      //??? 여기 왜 안되지
+      value: stack.poll,
+      done: false,
+    });
   }
   assert.deepStrictEqual(itStack.next(), {
     value: undefined,
