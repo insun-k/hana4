@@ -53,19 +53,6 @@ function ex1() {
 
 //function searchByKoreanInitialSound(s, str) {}
 
-var s = ["강원도 고성군", "고성군 토성면", "토성면 북면", "북면", "김1수"];
-var strs = "ㄱㅅㄱ";
-var c = strs[0].charCodeAt(0);
-
-// for (str of strs) {
-//   console.log(str);
-//   console.log(s[0].match());
-// }
-
-console.log("🚀 ~ c:", c);
-console.log(s[0].match(/[ㄱ가-깋][ㅅ사-싷][ㄱ가-깋]/g));
-//console.log("🚀 ~ t:", t);2
-
 function ex4() {
   // 4-1)
   const upperToLower = (str) => {
@@ -117,3 +104,73 @@ function ex4() {
   assert.deepStrictEqual(telfmt("07012341234"), "070-1234-1234");
   assert.deepStrictEqual(telfmt("050712345678"), "0507-1234-5678");
 }
+
+const s = ["강원도 고성군", "고성군 토성면", "토성면 북면", "북면", "김1수"];
+// var strs = "ㄱㅅㄱ";
+// var c = strs[0].charCodeAt(0);
+
+// // for (str of strs) {
+// //   console.log(str);
+// //   console.log(s[0].match());
+// // }
+
+// console.log("🚀 ~ c:", c);
+// console.log(s[0].match(/[ㄱ가-깋][ㅅ사-싷][ㄱ가-깋]/g));
+// //console.log("🚀 ~ t:", t);2
+function findInitials(strs) {
+  const initial = [
+    "ㄱ",
+    "ㄲ",
+    "ㄴ",
+    "ㄷ",
+    "ㄸ",
+    "ㄹ",
+    "ㅁ",
+    "ㅂ",
+    "ㅃ",
+    "ㅅ",
+    "ㅆ",
+    "ㅇ",
+    "ㅈ",
+    "ㅉ",
+    "ㅊ",
+    "ㅋ",
+    "ㅌ",
+    "ㅍ",
+    "ㅎ",
+  ];
+
+  const initialArr = [];
+  for (const str of strs) {
+    const code = str.charCodeAt(0);
+    if (code >= "가".charCodeAt(0) && code <= "힣".charCodeAt(0)) {
+      const initialIdx = Math.floor((code - "가".charCodeAt(0)) / (21 * 28));
+      initialArr.push(initial[initialIdx]);
+    } else {
+      initialArr.push(str);
+    }
+  }
+  console.log("initial>>", initialArr.join(""));
+  return initialArr;
+}
+function searchByKoreanInitialSound(s, pattern) {
+  const regexp = new RegExp(`${pattern}`, "g");
+  let result = s.filter((text) => regexp.test(findInitials(text).join("")));
+  return result;
+}
+
+//console.log(searchByKoreanInitialSound(s, "ㄱㅅㄱ"));
+// console.log(searchByKoreanInitialSound(s, "ㅌㅅㅁ"));
+// console.log(searchByKoreanInitialSound(s, "ㅂㅁ"));
+// console.log(searchByKoreanInitialSound(s, "ㅍㅁ"));
+// console.log(searchByKoreanInitialSound(s, "ㄱ1ㅅ"));
+
+const pattern = "ㄱㅅㄱ";
+const regexp = new RegExp(`${pattern}`, "g");
+
+// console.log("ㄱㅇㄷ ㄱㅅㄱ".match(regexp));
+// console.log("ㄱㅅㄱ ㅌㅅㅁ".match(regexp));
+console.log(regexp.exec("ㄱㅇㄷ ㄱㅅㄱ"));
+console.log(regexp.exec("ㄱㅅㄱ ㅌㅅㅁ"));
+
+console.log("ㄱㅅㄱ ㅌㅅㅁ".match(regexp));
