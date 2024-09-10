@@ -286,8 +286,8 @@ function ex9() {
     // }
 
     // // 위 코드(if문) 리펙토링
-    // let tmp = start;
-    // end = end ?? (start > 0 ? ((start = 1), tmp) : start < 0 ? -1 : 0);
+    let tmp = start;
+    end = end ?? (start > 0 ? ((start = 1), tmp) : start < 0 ? -1 : 0);
     //end = end ?? (start > 0 ? ((start = 1), tmp) : start % 2);
 
     const results = [];
@@ -334,6 +334,8 @@ function ex9() {
     Array.from({ length: 50 }, (_, i) => i * 3 + 1)
   );
 }
+
+ex9();
 
 function ex10() {
   // O(n^2) 풀이
