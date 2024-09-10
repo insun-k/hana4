@@ -117,29 +117,28 @@ const s = ["강원도 고성군", "고성군 토성면", "토성면 북면", "�
 // console.log("🚀 ~ c:", c);
 // console.log(s[0].match(/[ㄱ가-깋][ㅅ사-싷][ㄱ가-깋]/g));
 // //console.log("🚀 ~ t:", t);2
+const initial = [
+  "ㄱ",
+  "ㄲ",
+  "ㄴ",
+  "ㄷ",
+  "ㄸ",
+  "ㄹ",
+  "ㅁ",
+  "ㅂ",
+  "ㅃ",
+  "ㅅ",
+  "ㅆ",
+  "ㅇ",
+  "ㅈ",
+  "ㅉ",
+  "ㅊ",
+  "ㅋ",
+  "ㅌ",
+  "ㅍ",
+  "ㅎ",
+];
 function findInitials(strs) {
-  const initial = [
-    "ㄱ",
-    "ㄲ",
-    "ㄴ",
-    "ㄷ",
-    "ㄸ",
-    "ㄹ",
-    "ㅁ",
-    "ㅂ",
-    "ㅃ",
-    "ㅅ",
-    "ㅆ",
-    "ㅇ",
-    "ㅈ",
-    "ㅉ",
-    "ㅊ",
-    "ㅋ",
-    "ㅌ",
-    "ㅍ",
-    "ㅎ",
-  ];
-
   const initialArr = [];
   for (const str of strs) {
     const code = str.charCodeAt(0);
@@ -153,10 +152,34 @@ function findInitials(strs) {
   console.log("initial>>", initialArr.join(""));
   return initialArr;
 }
+
+const HANGUL_START_CHARCODE = 44032; // 가
+
+const CHARCODE_DIFF_INIT_CONSONANTS = 588; // 까 - 가
+const CHARCODE_DIFF_FINAL_CONSONANTS = 28; // 개 - 가
+
+const hangulRangeForReg = (chosung, jungsung, jongsung) => {
+  return String.fromCharCode(
+    HANGUL_START_CHARCODE +
+      chosung * CHARCODE_DIFF_INIT_CONSONANTS +
+      jungsung * CHARCODE_DIFF_FINAL_CONSONANTS +
+      jongsung
+  );
+};
+
 function searchByKoreanInitialSound(s, pattern) {
-  const regexp = new RegExp(`${pattern}`, "g");
-  let result = s.filter((text) => regexp.test(findInitials(text).join("")));
-  return result;
+  // const regexp = new RegExp(`${pattern}`, "g");
+  // let result = s.filter((text) => regexp.test(findInitials(text).join("")));
+  // return result;
+  const regexp = initial.reduce(
+    (acc, cur, idx) =>
+      acc.replace(
+        new RegExp(cur),
+        `[${hangulRangeForReg(idx, 0, 0)}-${hangulRangeForReg(idx + 1, 0, -1)}]`
+      ),
+    pattern
+  );
+  return new RegExp(regexp);
 }
 
 //console.log(searchByKoreanInitialSound(s, "ㄱㅅㄱ"));
