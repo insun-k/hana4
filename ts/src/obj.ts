@@ -8,7 +8,7 @@ xuser = tmp;
 type Emp = { id: number; name: string };
 //const arr: Emp[] = [{id:1, name:'Hong'},{id:2, name:'Kim',addr:'Seoul'}];
 const lee: Emp = { id: 1, name: "Lee" };
-const kim = { id: 2, name: "Kim", addr: "Seoul" }; // 따로 빼는 건 가능 -> freshness 꺼짐,
+const kim = { id: 2, name: "Kim", addr: "Seoul" }; // 변수할당 -> freshness 꺼짐
 const arr1: Emp[] = [{ id: 1, name: "Hong" }, kim];
 const arr2: Emp[] = [{ id: 2, name: "Kim", addr: "Seoul" }, kim];
 //const arr3: Emp[] = [{ id: 2, name: "Kim", addr: "Seoul" }, lee]; // lee에 addr 없음
@@ -23,3 +23,12 @@ const xemp: Emp | Emp2 | Emp3 = {
   addr: "Seoul",
   road: "sss",
 };
+
+let xxuser: { id: number; name: string };
+type TT = { id: number; name: string };
+
+let hhh: TT;
+hhh = { id: 1, name: "hong", age: 3 } as TT;
+
+const kkim = { id: 1, name: "kim", age: 4 };
+const hh: TT[] = [{ id: 1, name: "kim", age: 5 }, kkim];

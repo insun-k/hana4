@@ -1,4 +1,4 @@
-const moment = require("moment");
+import moment from "moment";
 import assert from "assert";
 
 // 내 풀이 - moment 사용
@@ -53,15 +53,19 @@ function e2() {
   console.log("🚀 ~ e2 ~ d:", d, lastDate, randDates);
 
   return randDates.sort((a, b) => (b > a ? 1 : -1));
+
+  function e3() {
+    const nextYear = new Date();
+    nextYear.setFullYear(nextYear.getFullYear() + 1);
+    console.log("🚀 ~ nextYear:", nextYear);
+    const nextYearWekk = "일월화수목금토"[nextYear.getDay()];
+    console.log("🚀 ~ nextYearWekk:", nextYearWekk);
+  }
+
+  function e4() {
+    const after100 = new Date();
+    console.log("🚀 ~ after100:", after100.toDateString());
+    after100.setDate(after100.getDate() + 100);
+    console.log("🚀 ~ after100:", after100.toDateString());
+  }
 }
-
-const nextYear = new Date();
-nextYear.setFullYear(nextYear.getFullYear() + 1);
-console.log("🚀 ~ nextYear:", nextYear);
-const nextYearWekk = "일월화수목금토"[nextYear.getDay()];
-console.log("🚀 ~ nextYearWekk:", nextYearWekk);
-
-const after100 = new Date();
-console.log("🚀 ~ after100:", after100.toDateString());
-after100.setDate(after100.getDate() + 100);
-console.log("🚀 ~ after100:", after100.toDateString());

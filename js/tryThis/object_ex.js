@@ -94,11 +94,11 @@ function sallowCopy(obj) {
   console.log(kim.addr !== newKim.addr);
 }
 
-sallowCopy();
+//sallowCopy();
 
 // deep Copy
 function isObject(obj) {
-  return obj && typeof obj !== "object";
+  return obj && typeof obj === "object";
 }
 
 const Kim = { nid: 3, nm: "Kim", addr: { city: "Pusan" }, [Symbol()]: "sym" };

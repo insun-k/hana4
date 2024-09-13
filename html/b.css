@@ -1,0 +1,11 @@
+.regist-form .row {
+  margin-bottom: 2rem;
+}
+
+.regist-form input {
+  text-align: center;
+}
+
+form .form-floating {
+  margin-bottom: 1rem;
+}
