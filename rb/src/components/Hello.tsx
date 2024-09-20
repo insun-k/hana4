@@ -31,17 +31,17 @@ const Body = ({ children }: { children: ReactNode }) => {
 export default function Hello({ name, age, plusCount, minusCount }: Props) {
   // Hello => container component
   const [myState, setMyState] = useState(0); // 상태
-  // let v = 1;
+  let v = 1;
   // console.log('**************', v, myState);
   return (
     <>
       <Title text='Hi,' name={name} />
       <Body>
-        This is Hello Body Component. {myState} - {age}
+        This is Hello Body Component. {v} - {myState} - {age}
       </Body>
       <button
         onClick={() => {
-          // v++;
+          v++;
           plusCount();
           setMyState(myState + 1);
           //console.log('v=', v);

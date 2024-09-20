@@ -30,7 +30,7 @@ export default tseslint.config(
     },
 
     rules: {
-      ...js.configs.recommended.rules, // ESLint rules
+      //...js.configs.recommended.rules, // ESLint rules
       ...react.configs.recommended.rules, // React rules
       ...react.configs['jsx-runtime'].rules, // JSX rules
 
