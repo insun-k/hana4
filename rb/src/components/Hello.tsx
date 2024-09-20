@@ -8,6 +8,13 @@ type TitleProps = {
   name: string;
 };
 
+type Props = {
+  name: string;
+  age: number;
+  plusCount: () => void;
+  minusCount: () => void;
+};
+
 //prop
 const Title = ({ text, name }: TitleProps) => (
   <h1>
@@ -17,29 +24,38 @@ const Title = ({ text, name }: TitleProps) => (
 
 // children
 const Body = ({ children }: { children: ReactNode }) => {
-  console.log('bbbbbb!!');
+  // console.log('bbbbbb!!');
   return <div className='red'>{children}</div>;
 };
 
-export default function Hello() {
+export default function Hello({ name, age, plusCount, minusCount }: Props) {
   // Hello => container component
   const [myState, setMyState] = useState(0); // 상태
-  let v = 1;
-  console.log('**************', v, myState);
+  // let v = 1;
+  // console.log('**************', v, myState);
   return (
     <>
-      <Title text='Hi,' name='React' />
+      <Title text='Hi,' name={name} />
       <Body>
-        This is Hello Body Component. {v} - {myState}
+        This is Hello Body Component. {myState} - {age}
       </Body>
       <button
         onClick={() => {
-          v++;
+          // v++;
+          plusCount();
           setMyState(myState + 1);
           //console.log('v=', v);
         }}
       >
-        Click Here!
+        Hello.Click Here!
+      </button>
+      <button
+        onClick={() => {
+          minusCount();
+          setMyState(myState - 1);
+        }}
+      >
+        Minus
       </button>
     </>
   );
