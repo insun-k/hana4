@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './App.css';
+// import './App.css';
 import Hello from './components/Hello';
 import My from './components/My';
 
@@ -21,6 +21,8 @@ function App() {
   const [session, setSession] = useState<Session>(SampleSession);
 
   const plusCount = () => setCount((count) => count + 1);
+  // const plusCount = () => {setCount((pre) => pre + 1); setCount((count) => count + 1)} => 2씩 증가..?
+
   const minusCount = () => setCount(count - 1);
 
   const logout = () => setSession({ ...session, loginUser: null });
@@ -28,8 +30,15 @@ function App() {
   const login = (id: number, name: string) =>
     setSession({ ...session, loginUser: { id, name } });
 
+  const removeCartItem = (id: number) => {
+    setSession({
+      ...session,
+      cart: session.cart.filter((item) => item.id !== id),
+    });
+  };
+
   return (
-    <>
+    <div className='mt-5 flex flex-col items-center'>
       {/* <h1>rbvite</h1> */}
       <Hello
         name='React!'
@@ -39,9 +48,15 @@ function App() {
       />
       <hr />
       <pre>{JSON.stringify(session.loginUser)}</pre>
-      <My session={session} logout={logout} login={login} />
+      <My
+        session={session}
+        logout={logout}
+        login={login}
+        removeCartItem={removeCartItem}
+      />
       <div className='card'>
         <button
+          className='btn mt-4'
           onClick={() => {
             setCount((count) => count + 1);
             if (session.loginUser) session.loginUser.name = 'xxx' + count;
@@ -50,7 +65,7 @@ function App() {
           App.count is {count}
         </button>
       </div>
-    </>
+    </div>
   );
 }
 
