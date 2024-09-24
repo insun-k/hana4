@@ -2,6 +2,7 @@ import { useRef, useState } from 'react';
 // import './App.css';
 import Hello, { MyHandler } from './components/Hello';
 import My from './components/My';
+import { type LoginHandler } from './components/Login';
 
 const SampleSession = {
   loginUser: { id: 1, name: 'Hong' },
@@ -17,20 +18,30 @@ type cartItem = { id: number; name: string; price: number };
 export type Session = { loginUser: LoginUser | null; cart: cartItem[] };
 
 function App() {
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
   const [session, setSession] = useState<Session>(SampleSession);
 
   const myHandleRef = useRef<MyHandler>(null);
 
-  const plusCount = () => setCount((count) => count + 1);
-  // const plusCount = () => {setCount((pre) => pre + 1); setCount((count) => count + 1)} => 2씩 증가..?
+  // const plusCount = () => setCount((count) => count + 1);
+  // // const plusCount = () => {setCount((pre) => pre + 1); setCount((count) => count + 1)} => 2씩 증가..?
 
-  const minusCount = () => setCount(count - 1);
+  // const minusCount = () => setCount(count - 1);
 
   const logout = () => setSession({ ...session, loginUser: null });
 
-  const login = (id: number, name: string) =>
+  const loginRef = useRef<LoginHandler>(null);
+  const login = (id: number, name: string) => {
+    if (!id) {
+      alert('Id를 입력하세요');
+      return loginRef.current?.focus('id');
+    }
+    if (!name) {
+      alert('name을 입력하세요');
+      return loginRef.current?.focus('name');
+    }
     setSession({ ...session, loginUser: { id, name } });
+  };
 
   const addCartItem = (name: string, price: number) => {
     const id = Math.max(...session.cart.map(({ id }) => id), 0) + 1;
@@ -53,8 +64,8 @@ function App() {
       <Hello
         name='React!'
         age={33}
-        plusCount={plusCount}
-        minusCount={minusCount}
+        // plusCount={plusCount}
+        // minusCount={minusCount}
         ref={myHandleRef}
       />
       <hr />
@@ -65,19 +76,21 @@ function App() {
         login={login}
         removeCartItem={removeCartItem}
         addCartItem={addCartItem}
+        ref={loginRef}
       />
-      <div className='card'>
+      {/* <div className='card'>
         <button
           className='btn mt-4'
           onClick={() => {
             setCount((count) => count + 1);
             if (session.loginUser) session.loginUser.name = 'xxx' + count;
+            console.table(session.loginUser);
             myHandleRef.current?.jumpHelloState();
           }}
         >
           App.count is {count}
         </button>
-      </div>
+      </div> */}
     </div>
   );
 }

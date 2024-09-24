@@ -5,6 +5,7 @@ import {
   useImperativeHandle,
   useState,
 } from 'react';
+import { useCounter } from '../hooks/counter-hook';
 
 //const Title = (props: { text: string }) => <h1>{props.text}</h1>;
 
@@ -17,8 +18,8 @@ type TitleProps = {
 type Props = {
   name: string;
   age: number;
-  plusCount: () => void;
-  minusCount: () => void;
+  // plusCount: () => void;
+  // minusCount: () => void;
 };
 
 //prop
@@ -38,11 +39,9 @@ export type MyHandler = {
   jumpHelloState: () => void;
 };
 
-function Hello(
-  { name, age, plusCount, minusCount }: Props,
-  ref: ForwardedRef<MyHandler>
-) {
+function Hello({ name, age }: Props, ref: ForwardedRef<MyHandler>) {
   // Hello => container component
+  const { plusCount, minusCount } = useCounter();
   const [myState, setMyState] = useState(0); // 상태
   let v = 1;
   // console.log('**************', v, myState);

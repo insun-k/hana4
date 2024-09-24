@@ -1,29 +1,50 @@
 //import { ChangeEvent, FormEvent, useRef, useState } from 'react';
 // import { FormEvent, useRef, useState } from 'react';
-import { FormEvent, useRef } from 'react';
+import {
+  FormEvent,
+  ForwardedRef,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 import Button from './atoms/Button';
 import LabelInput from './molecules/LabelInput';
 
-export default function Login({
-  login,
-}: {
-  login: (id: number, name: string) => void;
-}) {
+export type LoginHandler = {
+  focus: (prop: string) => void;
+};
+
+export default forwardRef(function Login(
+  {
+    login,
+  }: {
+    login: (id: number, name: string) => void;
+  },
+  ref: ForwardedRef<LoginHandler>
+) {
   // const [id, setId] = useState(0);
   //const [name, setName] = useState('');
   // useState 대신 useRef 사용
   const nameRef = useRef<HTMLInputElement>(null); // <> 타입 안쓰면 아래 nameRef.current?.value에서 에러
   const idRef = useRef<HTMLInputElement>(null);
 
+  const handler: LoginHandler = {
+    focus(prop) {
+      if (prop === 'id') idRef.current?.focus();
+      if (prop === 'name') nameRef.current?.focus();
+    },
+  };
+  useImperativeHandle(ref, () => handler);
+
   const signIn = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const name = nameRef.current?.value;
-    const id = nameRef.current?.value;
-    if (!id || !name) {
-      alert('Input the id & name!!');
-      return;
-    }
+    const id = idRef.current?.value ?? 0;
+    const name = nameRef.current?.value ?? '';
+    // if (!id || !name) {    // App에서 처리
+    //   alert('Input the id & name!!');
+    //   return;
+    // }
     login(+id, name);
   };
 
@@ -57,10 +78,11 @@ export default function Login({
         className='inp'
       />
       <Button
+        type='submit'
         text='Sing In'
         variant='btn-success'
         classNames='float-end mt-3 '
       />
     </form>
   );
-}
+});
