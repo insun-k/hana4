@@ -1,4 +1,4 @@
-import { FaRegTrashAlt } from 'react-icons/fa';
+import { FaPlusCircle, FaRedo, FaRegTrashAlt, FaSave } from 'react-icons/fa';
 // import { Session } from '../App.tsx';
 import Login, { LoginHandler } from './Login.tsx';
 import Profile from './Profile.tsx';
@@ -58,10 +58,9 @@ export default forwardRef(function My(
       {session.loginUser ? (
         <>
           <Profile ref={logoutButtonRef} />
-          <Button
-            onClick={() => logoutButtonRef.current?.click()}
-            text='My SignOut'
-          />
+          <Button onClick={() => logoutButtonRef.current?.click()}>
+            My SignOut
+          </Button>
         </>
       ) : (
         <Login ref={ref} />
@@ -111,16 +110,18 @@ export default forwardRef(function My(
                   placeholder='price...'
                   className='inp'
                 />
-                <Button type='reset' text='Cancel' onClick={toggleEditing} />
-                <Button type='submit' text='Save' classNames='btn-primary' />
+                <Button type='reset' onClick={toggleEditing}>
+                  <FaRedo />
+                </Button>
+                <Button type='submit' classNames='btn-primary'>
+                  <FaSave />
+                </Button>
               </div>
             </form>
           ) : (
-            <Button
-              onClick={toggleEditing}
-              text='
-              +Add Item'
-            />
+            <Button onClick={toggleEditing}>
+              <FaPlusCircle />
+            </Button>
           )}
         </li>
       </ul>

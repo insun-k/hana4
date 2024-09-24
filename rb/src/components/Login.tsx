@@ -10,6 +10,7 @@ import {
 import Button from './atoms/Button';
 import LabelInput from './molecules/LabelInput';
 import { useSession } from '../hooks/session-context';
+import { PiSignInBold } from 'react-icons/pi';
 
 export type LoginHandler = {
   focus: (prop: string) => void;
@@ -78,12 +79,9 @@ export default forwardRef(function Login(
         //onChange={changeName}
         className='inp'
       />
-      <Button
-        type='submit'
-        text='Sign In'
-        variant='btn-success'
-        classNames='float-end mt-3 '
-      />
+      <Button type='submit' variant='btn-success' classNames='float-end mt-3 '>
+        <PiSignInBold />
+      </Button>
     </form>
   );
 });

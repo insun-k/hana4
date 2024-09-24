@@ -1,13 +1,14 @@
 import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 
 type Props = {
-  text: string;
+  //text: string;
   variant?: string;
   classNames?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>; // onclick 넣는 대신 BUTTON에 해당하는 모든 기능
 
 export default function Button({
-  text,
+  //text,
+  children,
   variant = '',
   classNames = '',
   ...props
@@ -17,9 +18,9 @@ export default function Button({
     <button
       // onClick={props.onClick}
       {...props} // 위에 대신 스프레드 사용
-      className={`btn ${variant} ${classNames} normal-case`}
+      className={`btn ${variant} ${classNames} gap-1normal-case inline-flex items-center normal-case`}
     >
-      {text}
+      {children}
     </button>
   );
 }

@@ -38,7 +38,6 @@ type SessionContextProps = Omit<typeof contextInitValue, 'session'> & {
   session: Session;
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 const SessionContext = createContext<SessionContextProps>(contextInitValue);
 
 export const SessionProvider = ({ children }: PropsWithChildren) => {
