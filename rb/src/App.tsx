@@ -72,6 +72,7 @@ function App() {
           onClick={() => {
             setCount((count) => count + 1);
             if (session.loginUser) session.loginUser.name = 'xxx' + count;
+            myHandleRef.current?.jumpHelloState();
           }}
         >
           App.count is {count}
