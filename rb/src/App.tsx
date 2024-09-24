@@ -32,17 +32,18 @@ function App() {
   const login = (id: number, name: string) =>
     setSession({ ...session, loginUser: { id, name } });
 
+  const addCartItem = (name: string, price: number) => {
+    const id = Math.max(...session.cart.map(({ id }) => id), 0) + 1;
+    setSession({
+      ...session,
+      cart: [...session.cart, { id: id, name, price }],
+    });
+  };
+
   const removeCartItem = (id: number) => {
     setSession({
       ...session,
       cart: session.cart.filter((item) => item.id !== id),
-    });
-  };
-
-  const addCartItem = (name: string, price: number) => {
-    setSession({
-      ...session,
-      cart: [...session.cart, { id: Date.now(), name, price }],
     });
   };
 

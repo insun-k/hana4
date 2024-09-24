@@ -2,7 +2,7 @@ import { FaRegTrashAlt } from 'react-icons/fa';
 import { Session } from '../App.tsx';
 import Login from './Login.tsx';
 import Profile from './Profile.tsx';
-import { FormEvent, useRef } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import Button from './atoms/Button.tsx';
 
 type Props = {
@@ -20,9 +20,12 @@ export default function My({
   removeCartItem,
   addCartItem,
 }: Props) {
+  const [isEditing, setIsEditing] = useState(false);
   const logoutButtonRef = useRef<HTMLButtonElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
   const priceRef = useRef<HTMLInputElement>(null);
+
+  const toggleEditing = () => setIsEditing((pre) => !pre);
 
   const removeItem = (id: number) => {
     // 삭제 확인 여부
@@ -31,16 +34,26 @@ export default function My({
     }
   };
 
-  const addItem = (e: FormEvent<HTMLFormElement>) => {
+  // 수정과 추가
+  const saveItem = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const name = nameRef.current?.value;
     const price = priceRef.current?.value;
-    if (!price || !name) {
-      alert('Input the name & price!!');
-      return;
+    if (!name) {
+      alert('상품명을 입력하세요');
+      return nameRef.current?.focus();
+    } else if (!price) {
+      alert('가격을 입력하세요');
+      return priceRef.current?.focus();
     }
     addCartItem(name, +price);
+
+    // save하고 input 초기화
+    nameRef.current.value = '';
+    priceRef.current.value = '';
+    nameRef.current.focus();
   };
+
   return (
     <>
       {session.loginUser ? (
@@ -80,8 +93,40 @@ export default function My({
         ) : (
           <li className='text-gray-400'>no items</li>
         )}
+
+        <li className='mt-3 text-center'>
+          {isEditing ? (
+            <form onSubmit={saveItem}>
+              <div className='mt-3 flex gap-2'>
+                <input
+                  id='name'
+                  type='text'
+                  ref={nameRef}
+                  placeholder='name...'
+                  className='inp'
+                />
+                <input
+                  id='price'
+                  type='number'
+                  ref={priceRef}
+                  placeholder='price...'
+                  className='inp'
+                />
+                <Button type='reset' text='Cancel' onClick={toggleEditing} />
+                <Button type='submit' text='Save' classNames='btn-primary' />
+              </div>
+            </form>
+          ) : (
+            <Button
+              onClick={toggleEditing}
+              text='
+              +Add Item'
+            />
+          )}
+        </li>
       </ul>
-      <form onSubmit={addItem}>
+
+      {/* <form onSubmit={addItem}>
         <input
           id='name'
           type='text'
@@ -97,7 +142,7 @@ export default function My({
           className='inp'
         />
         <Button text='add' />
-      </form>
+      </form> */}
     </>
   );
 }

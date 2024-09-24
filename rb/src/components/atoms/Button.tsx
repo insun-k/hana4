@@ -16,8 +16,7 @@ export default function Button({
     <button
       // onClick={props.onClick}
       {...props} // 위에 대신 스프레드 사용
-      //className={`btn ${variant} ${classNames}`}
-      className={`btn ${variant} ${classNames}`}
+      className={`btn ${variant} ${classNames} normal-case`}
     >
       {text}
     </button>
