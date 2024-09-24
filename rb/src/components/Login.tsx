@@ -9,19 +9,18 @@ import {
 } from 'react';
 import Button from './atoms/Button';
 import LabelInput from './molecules/LabelInput';
+import { useSession } from '../hooks/session-context';
 
 export type LoginHandler = {
   focus: (prop: string) => void;
 };
 
 export default forwardRef(function Login(
-  {
-    login,
-  }: {
-    login: (id: number, name: string) => void;
-  },
+  _: unknown,
   ref: ForwardedRef<LoginHandler>
 ) {
+  const { login } = useSession();
+
   // const [id, setId] = useState(0);
   //const [name, setName] = useState('');
   // useState 대신 useRef 사용
@@ -40,6 +39,8 @@ export default forwardRef(function Login(
     e.preventDefault();
 
     const id = idRef.current?.value ?? 0;
+    console.log('🚀 ~ signIn ~ id:', id);
+
     const name = nameRef.current?.value ?? '';
     // if (!id || !name) {    // App에서 처리
     //   alert('Input the id & name!!');
@@ -79,7 +80,7 @@ export default forwardRef(function Login(
       />
       <Button
         type='submit'
-        text='Sing In'
+        text='Sign In'
         variant='btn-success'
         classNames='float-end mt-3 '
       />

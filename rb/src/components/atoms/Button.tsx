@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes } from 'react';
+import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 
 type Props = {
   text: string;
@@ -11,7 +11,8 @@ export default function Button({
   variant = '',
   classNames = '',
   ...props
-}: Props) {
+}: PropsWithChildren<Props>) {
+  // 직접 children 선언 하거나 PropsWtihChildren 사용
   return (
     <button
       // onClick={props.onClick}

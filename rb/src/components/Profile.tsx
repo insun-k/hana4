@@ -1,14 +1,16 @@
 import { ForwardedRef, forwardRef } from 'react';
-import { Session } from '../App.tsx';
+import { useSession } from '../hooks/session-context';
+// import { Session } from '../App.tsx';
 // import Button from './atoms/Button.tsx';
 
-type Props = {
-  session: Session; // App에서 export한 type 사용
-  logout: () => void;
-};
+// type Props = {
+//   session: Session; // App에서 export한 type 사용
+//   logout: () => void;
+// };
 
 const Profile = forwardRef(
-  ({ session, logout }: Props, ref: ForwardedRef<HTMLButtonElement>) => {
+  (_: unknown, ref: ForwardedRef<HTMLButtonElement>) => {
+    const { session, logout } = useSession();
     return (
       <div>
         <h3 className='m-4 text-center text-green-300'>

@@ -1,25 +1,26 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 // import './App.css';
 import Hello, { MyHandler } from './components/Hello';
 import My from './components/My';
-import { type LoginHandler } from './components/Login';
+// import { type LoginHandler } from './components/Login';
+import { SessionProvider } from './hooks/session-context';
 
-const SampleSession = {
-  loginUser: { id: 1, name: 'Hong' },
-  cart: [
-    { id: 100, name: '라면', price: 3000 },
-    { id: 101, name: '컵라면', price: 2000 },
-    { id: 200, name: '파', price: 5000 },
-  ],
-};
+// const SampleSession = {
+//   loginUser: { id: 1, name: 'Hong' },
+//   cart: [
+//     { id: 100, name: '라면', price: 3000 },
+//     { id: 101, name: '컵라면', price: 2000 },
+//     { id: 200, name: '파', price: 5000 },
+//   ],
+// };
 
-type LoginUser = typeof SampleSession.loginUser;
-type cartItem = { id: number; name: string; price: number };
-export type Session = { loginUser: LoginUser | null; cart: cartItem[] };
+// type LoginUser = typeof SampleSession.loginUser;
+// type cartItem = { id: number; name: string; price: number };
+// export type Session = { loginUser: LoginUser | null; cart: cartItem[] };
 
 function App() {
   // const [count, setCount] = useState(0);
-  const [session, setSession] = useState<Session>(SampleSession);
+  // *const [session, setSession] = useState<Session>(SampleSession);
 
   const myHandleRef = useRef<MyHandler>(null);
 
@@ -28,39 +29,42 @@ function App() {
 
   // const minusCount = () => setCount(count - 1);
 
-  const logout = () => setSession({ ...session, loginUser: null });
+  //*** session-context로 이동 */
+  // const logout = () => setSession({ ...session, loginUser: null });
 
-  const loginRef = useRef<LoginHandler>(null);
-  const login = (id: number, name: string) => {
-    if (!id) {
-      alert('Id를 입력하세요');
-      return loginRef.current?.focus('id');
-    }
-    if (!name) {
-      alert('name을 입력하세요');
-      return loginRef.current?.focus('name');
-    }
-    setSession({ ...session, loginUser: { id, name } });
-  };
+  // const loginRef = useRef<LoginHandler>(null);
+  // const login = (id: number, name: string) => {
+  //   if (!id) {
+  //     alert('Id를 입력하세요');
+  //     return loginRef.current?.focus('id');
+  //   }
+  //   if (!name) {
+  //     alert('name을 입력하세요');
+  //     return loginRef.current?.focus('name');
+  //   }
+  //   setSession({ ...session, loginUser: { id, name } });
+  // };
 
-  const addCartItem = (name: string, price: number) => {
-    const id = Math.max(...session.cart.map(({ id }) => id), 0) + 1;
-    setSession({
-      ...session,
-      cart: [...session.cart, { id: id, name, price }],
-    });
-  };
+  // const addCartItem = (name: string, price: number) => {
+  //   const id = Math.max(...session.cart.map(({ id }) => id), 0) + 1;
+  //   setSession({
+  //     ...session,
+  //     cart: [...session.cart, { id: id, name, price }],
+  //   });
+  // };
 
-  const removeCartItem = (id: number) => {
-    setSession({
-      ...session,
-      cart: session.cart.filter((item) => item.id !== id),
-    });
-  };
+  // const removeCartItem = (id: number) => {
+  //   setSession({
+  //     ...session,
+  //     cart: session.cart.filter((item) => item.id !== id),
+  //   });
+  // };
 
   return (
     <div className='mt-5 flex flex-col items-center'>
       {/* <h1>rbvite</h1> */}
+      <hr />
+      {/* <pre className='mt-5'>{JSON.stringify(session.loginUser)}</pre> */}
       <Hello
         name='React!'
         age={33}
@@ -68,16 +72,19 @@ function App() {
         // minusCount={minusCount}
         ref={myHandleRef}
       />
-      <hr />
-      <pre className='mt-5'>{JSON.stringify(session.loginUser)}</pre>
-      <My
-        session={session}
-        logout={logout}
-        login={login}
-        removeCartItem={removeCartItem}
-        addCartItem={addCartItem}
-        ref={loginRef}
-      />
+
+      <SessionProvider>
+        <My />
+      </SessionProvider>
+
+      {/* <My
+      // session={session}
+      // logout={logout}
+      // login={login}
+      // removeCartItem={removeCartItem}
+      // addCartItem={addCartItem}
+      // ref={loginRef}
+      /> */}
       {/* <div className='card'>
         <button
           className='btn mt-4'

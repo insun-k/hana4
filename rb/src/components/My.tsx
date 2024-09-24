@@ -1,22 +1,24 @@
 import { FaRegTrashAlt } from 'react-icons/fa';
-import { Session } from '../App.tsx';
+// import { Session } from '../App.tsx';
 import Login, { LoginHandler } from './Login.tsx';
 import Profile from './Profile.tsx';
 import { FormEvent, ForwardedRef, forwardRef, useRef, useState } from 'react';
 import Button from './atoms/Button.tsx';
+import { useSession } from '../hooks/session-context.tsx';
 
-type Props = {
-  session: Session; // App에서 export한 type 사용
-  logout: () => void;
-  login: (id: number, name: string) => void;
-  removeCartItem: (itemId: number) => void;
-  addCartItem: (name: string, price: number) => void;
-};
+// type Props = {
+//   session: Session; // App에서 export한 type 사용
+//   logout: () => void;
+//   login: (id: number, name: string) => void;
+//   removeCartItem: (itemId: number) => void;
+//   addCartItem: (name: string, price: number) => void;
+// };
 
 export default forwardRef(function My(
-  { session, logout, login, removeCartItem, addCartItem }: Props,
+  _: unknown,
   ref: ForwardedRef<LoginHandler>
 ) {
+  const { session, removeCartItem, addCartItem } = useSession();
   const [isEditing, setIsEditing] = useState(false);
   const logoutButtonRef = useRef<HTMLButtonElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
@@ -55,14 +57,14 @@ export default forwardRef(function My(
     <>
       {session.loginUser ? (
         <>
-          <Profile session={session} logout={logout} ref={logoutButtonRef} />
+          <Profile ref={logoutButtonRef} />
           <Button
             onClick={() => logoutButtonRef.current?.click()}
             text='My SignOut'
           />
         </>
       ) : (
-        <Login login={login} ref={ref} />
+        <Login ref={ref} />
       )}
 
       {/* <ul>
