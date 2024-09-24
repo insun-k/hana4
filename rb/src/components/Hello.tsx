@@ -1,4 +1,10 @@
-import { ReactNode, useState } from 'react';
+import {
+  ForwardedRef,
+  forwardRef,
+  ReactNode,
+  useImperativeHandle,
+  useState,
+} from 'react';
 
 //const Title = (props: { text: string }) => <h1>{props.text}</h1>;
 
@@ -28,16 +34,30 @@ const Body = ({ children }: { children: ReactNode }) => {
   return <div className='red'>{children}</div>;
 };
 
-export default function Hello({ name, age, plusCount, minusCount }: Props) {
+export type MyHandler = {
+  jumpHelloState: () => void;
+};
+
+function Hello(
+  { name, age, plusCount, minusCount }: Props,
+  ref: ForwardedRef<MyHandler>
+) {
   // Hello => container component
   const [myState, setMyState] = useState(0); // 상태
   let v = 1;
   // console.log('**************', v, myState);
+
+  const handler: MyHandler = {
+    jumpHelloState: () => setMyState((pre) => pre * 10),
+  };
+  useImperativeHandle(ref, () => handler);
+
   return (
-    <div className='border p-2'>
+    <div className='border p-5 text-center'>
       <Title text='Hi,' name={name} />
       <Body>
-        This is Hello Body Component. {v} - {myState} - {age}
+        <h3 className='text-center text-2xl'>myState : {myState}</h3>
+        This is Hello Body Component. {v} - {age}
       </Body>
       <button
         className='btn'
@@ -63,6 +83,9 @@ export default function Hello({ name, age, plusCount, minusCount }: Props) {
     </div>
   );
 }
+
+const ImpHello = forwardRef(Hello);
+export default ImpHello;
 
 // 버튼 누를때마다 component(Body), container component(Hello) 모두 실행됨 (console.log 참고)
 // => 불합리  => container component 적절한 사용 필요

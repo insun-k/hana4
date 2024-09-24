@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 // import './App.css';
-import Hello from './components/Hello';
+import Hello, { MyHandler } from './components/Hello';
 import My from './components/My';
 
 const SampleSession = {
@@ -20,6 +20,8 @@ function App() {
   const [count, setCount] = useState(0);
   const [session, setSession] = useState<Session>(SampleSession);
 
+  const myHandleRef = useRef<MyHandler>(null);
+
   const plusCount = () => setCount((count) => count + 1);
   // const plusCount = () => {setCount((pre) => pre + 1); setCount((count) => count + 1)} => 2씩 증가..?
 
@@ -37,6 +39,13 @@ function App() {
     });
   };
 
+  const addCartItem = (name: string, price: number) => {
+    setSession({
+      ...session,
+      cart: [...session.cart, { id: Date.now(), name, price }],
+    });
+  };
+
   return (
     <div className='mt-5 flex flex-col items-center'>
       {/* <h1>rbvite</h1> */}
@@ -45,14 +54,16 @@ function App() {
         age={33}
         plusCount={plusCount}
         minusCount={minusCount}
+        ref={myHandleRef}
       />
       <hr />
-      <pre>{JSON.stringify(session.loginUser)}</pre>
+      <pre className='mt-5'>{JSON.stringify(session.loginUser)}</pre>
       <My
         session={session}
         logout={logout}
         login={login}
         removeCartItem={removeCartItem}
+        addCartItem={addCartItem}
       />
       <div className='card'>
         <button
