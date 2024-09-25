@@ -17,8 +17,8 @@ const SampleSession = {
 };
 
 type LoginUser = typeof SampleSession.loginUser;
-type cartItem = { id: number; name: string; price: number };
-export type Session = { loginUser: LoginUser | null; cart: cartItem[] };
+export type CartItem = { id: number; name: string; price: number };
+export type Session = { loginUser: LoginUser | null; cart: CartItem[] };
 
 const contextInitValue = {
   session: SampleSession,
@@ -32,6 +32,7 @@ const contextInitValue = {
   addCartItem: (name: string, price: number) => {
     console.log(name, price);
   },
+  editCartItem: (item: CartItem) => console.log(item),
 };
 
 type SessionContextProps = Omit<typeof contextInitValue, 'session'> & {
@@ -73,9 +74,26 @@ export const SessionProvider = ({ children }: PropsWithChildren) => {
       cart: session.cart.filter((item) => item.id !== id),
     });
   };
+
+  const editCartItem = (item: CartItem) => {
+    setSession({
+      ...session,
+      cart: session.cart.map((oldItem) =>
+        oldItem.id === item.id ? item : oldItem
+      ),
+    });
+  };
+
   return (
     <SessionContext.Provider
-      value={{ session, logout, login, removeCartItem, addCartItem }}
+      value={{
+        session,
+        logout,
+        login,
+        removeCartItem,
+        addCartItem,
+        editCartItem,
+      }}
     >
       {children}
     </SessionContext.Provider>
