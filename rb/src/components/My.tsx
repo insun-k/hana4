@@ -1,10 +1,11 @@
-import { FaPlusCircle, FaRedo, FaRegTrashAlt, FaSave } from 'react-icons/fa';
+import { FaPlus, FaRedo, FaSave } from 'react-icons/fa';
 // import { Session } from '../App.tsx';
 import Login, { LoginHandler } from './Login.tsx';
 import Profile from './Profile.tsx';
 import { FormEvent, ForwardedRef, forwardRef, useRef, useState } from 'react';
 import Button from './atoms/Button.tsx';
 import { useSession } from '../hooks/session-context.tsx';
+import { FaPencil } from 'react-icons/fa6';
 
 // type Props = {
 //   session: Session; // App에서 export한 type 사용
@@ -56,12 +57,12 @@ export default forwardRef(function My(
   return (
     <>
       {session.loginUser ? (
-        <>
+        <div className='flex-col items-center'>
           <Profile ref={logoutButtonRef} />
           <Button onClick={() => logoutButtonRef.current?.click()}>
             My SignOut
           </Button>
-        </>
+        </div>
       ) : (
         <Login ref={ref} />
       )}
@@ -74,17 +75,21 @@ export default forwardRef(function My(
         ))}
       </ul> */}
       {/* 위 코드랑 다른점 : 디스트럭처링 사용 */}
-      <ul className='m-3 border p-5 font-bold'>
+      <ul className='my-3 w-2/3 border p-5'>
         {session.cart?.length ? (
           session.cart.map(({ id, name, price }) => (
             <li key={id} className='mb-1 flex justify-between'>
-              <strong>{name} </strong>
-              <small className='ml-2 text-gray-500'>({price}원)</small>
+              <strong>
+                {name}
+                <small className='ml-2 font-light text-gray-500'>
+                  ({price}원)
+                </small>
+              </strong>
               <button
-                className='btn btn-danger ml-10 px-1 py-0'
+                className='btn btn-danger px-1 py-0'
                 onClick={() => removeItem(id)}
               >
-                <FaRegTrashAlt />
+                <FaPencil />
               </button>
             </li>
           ))
@@ -120,7 +125,7 @@ export default forwardRef(function My(
             </form>
           ) : (
             <Button onClick={toggleEditing}>
-              <FaPlusCircle />
+              <FaPlus />
             </Button>
           )}
         </li>
