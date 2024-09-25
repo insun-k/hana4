@@ -41,7 +41,7 @@ export type MyHandler = {
 
 function Hello({ name, age }: Props, ref: ForwardedRef<MyHandler>) {
   // Hello => container component
-  const { plusCount, minusCount } = useCounter();
+  const { count, plusCount, minusCount } = useCounter();
   const [myState, setMyState] = useState(0); // 상태
   let v = 1;
   // console.log('**************', v, myState);
@@ -69,7 +69,7 @@ function Hello({ name, age }: Props, ref: ForwardedRef<MyHandler>) {
       >
         Hello
       </button>
-      <strong className='mx-5'></strong>
+      <strong className='mx-5'>{count}</strong>
       <button
         className='btn btn-danger'
         onClick={() => {

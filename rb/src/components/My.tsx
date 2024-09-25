@@ -2,10 +2,11 @@ import { FaPlus } from 'react-icons/fa';
 // import { Session } from '../App.tsx';
 import Login, { LoginHandler } from './Login.tsx';
 import Profile from './Profile.tsx';
-import { ForwardedRef, forwardRef, useRef, useState } from 'react';
+import { ForwardedRef, forwardRef, useRef } from 'react';
 import Button from './atoms/Button.tsx';
 import { useSession } from '../hooks/session-context.tsx';
 import Item from './Item.tsx';
+import useToggle from '../hooks/toggle.ts';
 
 // type Props = {
 //   session: Session; // App에서 export한 type 사용
@@ -20,12 +21,14 @@ export default forwardRef(function My(
   ref: ForwardedRef<LoginHandler>
 ) {
   const { session } = useSession();
-  const [isAdding, setIsAdding] = useState(false);
   const logoutButtonRef = useRef<HTMLButtonElement>(null);
   // const nameRef = useRef<HTMLInputElement>(null);
   // const priceRef = useRef<HTMLInputElement>(null);
 
-  const toggleAdding = () => setIsAdding((pre) => !pre);
+  // const [isAdding, setIsAdding] = useState(false);
+  //const toggleAdding = () => setIsAdding((pre) => !pre);
+
+  const [isAdding, toggleAdding] = useToggle();
 
   // const removeItem = (id: number) => {
   //   // 삭제 확인 여부

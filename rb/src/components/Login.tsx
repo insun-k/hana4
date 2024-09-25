@@ -4,6 +4,7 @@ import {
   FormEvent,
   ForwardedRef,
   forwardRef,
+  useEffect,
   useImperativeHandle,
   useRef,
 } from 'react';
@@ -11,6 +12,7 @@ import Button from './atoms/Button';
 import LabelInput from './molecules/LabelInput';
 import { useSession } from '../hooks/session-context';
 import { PiSignInBold } from 'react-icons/pi';
+import { useCounter } from '../hooks/counter-hook';
 
 export type LoginHandler = {
   focus: (prop: string) => void;
@@ -21,6 +23,7 @@ export default forwardRef(function Login(
   ref: ForwardedRef<LoginHandler>
 ) {
   const { login } = useSession();
+  const { plusCount, minusCount } = useCounter();
 
   // const [id, setId] = useState(0);
   //const [name, setName] = useState('');
@@ -40,7 +43,6 @@ export default forwardRef(function Login(
     e.preventDefault();
 
     const id = idRef.current?.value ?? 0;
-    console.log('🚀 ~ signIn ~ id:', id);
 
     const name = nameRef.current?.value ?? '';
     // if (!id || !name) {    // App에서 처리
@@ -53,6 +55,29 @@ export default forwardRef(function Login(
   // const changeName = (e: ChangeEvent<HTMLInputElement>) => {
   //   setName(e.currentTarget.value);
   // };
+
+  // useEffect(() => {
+  //   console.log('useEffect!!!!!');
+  //   plusCount();
+
+  //   // return () => minusCount();
+  //   return () => {
+  //     console.log('cleanup');
+  //     minusCount();
+  //   };
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+  useEffect(() => {
+    console.log('useeffffffff11');
+    plusCount();
+  }, [plusCount]);
+
+  useEffect(() => {
+    console.log('useeffffffff22');
+
+    return minusCount;
+  }, [minusCount]);
 
   return (
     <form onSubmit={signIn} className='m-5 border p-3 text-center'>
