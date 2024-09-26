@@ -16,11 +16,11 @@ const CounterContext = createContext<CounterContextProps>({
 export const CounterProvider = ({ children }: PropsWithChildren) => {
   const [count, setCount] = useState(0);
   const plusCount = () => {
-    console.log('plus!!');
+    //console.log('plus!!');
     setCount((pre) => pre + 1);
   };
   const minusCount = () => {
-    console.log('minus!!');
+    //console.log('minus!!');
     setCount((pre) => pre - 1);
   };
 

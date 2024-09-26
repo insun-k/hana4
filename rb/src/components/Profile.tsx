@@ -9,8 +9,10 @@ import { useSession } from '../hooks/session-context';
 // };
 
 const Profile = forwardRef(
-  (_: unknown, ref: ForwardedRef<HTMLButtonElement>) => {
+  ({ xxx }: { xxx: number }, ref: ForwardedRef<HTMLButtonElement>) => {
     const { session, logout } = useSession();
+    // console.log('xxx>>', xxx);
+    // const data = useFetch;
     return (
       <div>
         <h3 className='m-4 text-center text-green-300'>
@@ -19,7 +21,7 @@ const Profile = forwardRef(
 
         {/* <Button onClick={logout} variant='btn-primary ' text='Sign Out' /> */}
         <button onClick={logout} className='btn btn-primary' ref={ref}>
-          Sign Out
+          Sign Out {xxx}
         </button>
       </div>
     );

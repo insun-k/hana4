@@ -2,11 +2,12 @@ import { FaPlus } from 'react-icons/fa';
 // import { Session } from '../App.tsx';
 import Login, { LoginHandler } from './Login.tsx';
 import Profile from './Profile.tsx';
-import { ForwardedRef, forwardRef, useRef } from 'react';
+import { ForwardedRef, forwardRef, useEffect, useRef } from 'react';
 import Button from './atoms/Button.tsx';
 import { useSession } from '../hooks/session-context.tsx';
 import Item from './Item.tsx';
 import useToggle from '../hooks/toggle.ts';
+import { useTimeout } from '../hooks/timer-hooks.ts';
 
 // type Props = {
 //   session: Session; // App에서 export한 type 사용
@@ -28,7 +29,7 @@ export default forwardRef(function My(
   // const [isAdding, setIsAdding] = useState(false);
   //const toggleAdding = () => setIsAdding((pre) => !pre);
 
-  const [isAdding, toggleAdding] = useToggle();
+  const [isAdding, toggleAdding] = useToggle(true);
 
   // const removeItem = (id: number) => {
   //   // 삭제 확인 여부
@@ -37,7 +38,6 @@ export default forwardRef(function My(
   //   }
   // };
 
-  // // 수정과 추가
   // const saveItem = (e: FormEvent<HTMLFormElement>) => {
   //   e.preventDefault();
   //   const name = nameRef.current?.value;
@@ -57,11 +57,39 @@ export default forwardRef(function My(
   //   nameRef.current.focus();
   // };
 
+  let xxx = 0;
+  useTimeout(() => {
+    xxx++;
+  }, 1000);
+
+  // useEffect(() => {
+  //   const abortController = new AbortController();
+  //   const { signal } = abortController;
+  //   fetch('/data/sample.json', { signal })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log('data>>', data);
+  //     });
+  //   return () => abortController.abort('Clean up in My!');
+  // }, []);
+
+  useEffect(() => {
+    const abortController = new AbortController();
+    const { signal } = abortController;
+    fetch('/data/sample.json', { signal })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log('data>>', data);
+      });
+
+    return () => abortController.abort('Clean up!');
+  }, []); // 1번 실행
+
   return (
     <>
       {session.loginUser ? (
         <div className='flex-col items-center'>
-          <Profile ref={logoutButtonRef} />
+          <Profile ref={logoutButtonRef} xxx={xxx} />
           <Button onClick={() => logoutButtonRef.current?.click()}>
             My SignOut
           </Button>
@@ -85,7 +113,7 @@ export default forwardRef(function My(
           {isAdding ? (
             <Item
               item={{ id: 0, name: '', price: 0 }}
-              toggleAdding={toggleAdding}
+              toggleAdding={() => toggleAdding(true)}
             />
           ) : (
             <Button onClick={toggleAdding}>

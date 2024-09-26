@@ -13,6 +13,7 @@ import LabelInput from './molecules/LabelInput';
 import { useSession } from '../hooks/session-context';
 import { PiSignInBold } from 'react-icons/pi';
 import { useCounter } from '../hooks/counter-hook';
+// import { useInterval, useTimeout } from '../hooks/timer-hooks';
 
 export type LoginHandler = {
   focus: (prop: string) => void;
@@ -23,7 +24,7 @@ export default forwardRef(function Login(
   ref: ForwardedRef<LoginHandler>
 ) {
   const { login } = useSession();
-  const { plusCount, minusCount } = useCounter();
+  const { count, plusCount, minusCount } = useCounter();
 
   // const [id, setId] = useState(0);
   //const [name, setName] = useState('');
@@ -56,28 +57,33 @@ export default forwardRef(function Login(
   //   setName(e.currentTarget.value);
   // };
 
+  // !! --- useEffect TryThis ---!!
+  // before
   // useEffect(() => {
-  //   console.log('useEffect!!!!!');
-  //   plusCount();
+  //   const tmout = setTimeout(() => console.log('X'), 100);
 
-  //   // return () => minusCount();
-  //   return () => {
-  //     console.log('cleanup');
-  //     minusCount();
-  //   };
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  //   return () => clearTimeout(tmout);
   // }, []);
 
+  //after
+  // const f = (y: number) => {
+  //   console.log('useTimeout!!', y);
+  // };
+  // useTimeout(f, 500, 555);
+
+  // useTimeout((x: number, y: number) => console.log('xxxx', x, y), 1000, 1, 2);
+  // useInterval(() => console.log('useInterval!!'), 2000);
+
+  // !! useEffect 예시 !!
   useEffect(() => {
-    console.log('useeffffffff11');
+    // console.log('useeffffffff11', count);
     plusCount();
-  }, [plusCount]);
 
-  useEffect(() => {
-    console.log('useeffffffff22');
-
-    return minusCount;
-  }, [minusCount]);
+    return () => {
+      // console.log('xxx');
+      minusCount();
+    };
+  }, [count, plusCount, minusCount]);
 
   return (
     <form onSubmit={signIn} className='m-5 border p-3 text-center'>

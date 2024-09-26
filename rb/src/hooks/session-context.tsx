@@ -2,21 +2,29 @@ import {
   createContext,
   PropsWithChildren,
   useContext,
+  useLayoutEffect,
   useRef,
   useState,
 } from 'react';
 import { LoginHandler } from '../components/Login';
+import { useFetch } from './fetch-hook';
+
+// useFetch로 대체
+// const SampleSession = {
+//   loginUser: { id: 1, name: 'Hong' },
+//   cart: [
+//     { id: 100, name: '라면', price: 3000 },
+//     { id: 101, name: '컵라면', price: 2000 },
+//     { id: 200, name: '파', price: 5000 },
+//   ],
+// };
 
 const SampleSession = {
-  loginUser: { id: 1, name: 'Hong' },
-  cart: [
-    { id: 100, name: '라면', price: 3000 },
-    { id: 101, name: '컵라면', price: 2000 },
-    { id: 200, name: '파', price: 5000 },
-  ],
+  loginUser: null,
+  cart: [],
 };
 
-type LoginUser = typeof SampleSession.loginUser;
+type LoginUser = { id: number; name: string };
 export type CartItem = { id: number; name: string; price: number };
 export type Session = { loginUser: LoginUser | null; cart: CartItem[] };
 
@@ -45,6 +53,12 @@ export const SessionProvider = ({ children }: PropsWithChildren) => {
   const [session, setSession] = useState<Session>(SampleSession);
 
   const logout = () => setSession({ ...session, loginUser: null });
+
+  const data = useFetch<Session>('/data/sample.json') || SampleSession;
+  useLayoutEffect(() => {
+    // effect보다(useFetch) 빨리 실행하려고 LayoutEffect사용
+    setSession(data);
+  }, [data]);
 
   const loginRef = useRef<LoginHandler>(null);
   const login = (id: number, name: string) => {
