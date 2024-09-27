@@ -6,6 +6,8 @@ import {
   useState,
 } from 'react';
 import { useCounter } from '../hooks/counter-hook';
+import { useFetch } from '../hooks/fetch-hook';
+import { FaSpinner } from 'react-icons/fa';
 
 //const Title = (props: { text: string }) => <h1>{props.text}</h1>;
 
@@ -17,7 +19,7 @@ type TitleProps = {
 
 type Props = {
   name: string;
-  age: number;
+  friend: number;
   // plusCount: () => void;
   // minusCount: () => void;
 };
@@ -39,8 +41,15 @@ export type MyHandler = {
   jumpHelloState: () => void;
 };
 
-function Hello({ name, age }: Props, ref: ForwardedRef<MyHandler>) {
-  // Hello => container component
+type PlaceUser = {
+  id: number;
+  name: string;
+  username: string;
+  email: string;
+};
+
+function Hello({ name, friend }: Props, ref: ForwardedRef<MyHandler>) {
+  // Hello => container componentis
   const { count, plusCount, minusCount } = useCounter();
   const [myState, setMyState] = useState(0); // 상태
   let v = 1;
@@ -51,12 +60,40 @@ function Hello({ name, age }: Props, ref: ForwardedRef<MyHandler>) {
   };
   useImperativeHandle(ref, () => handler);
 
+  const {
+    data: friendInfo,
+    isLoading,
+    error,
+  } = useFetch<PlaceUser>(
+    `https://jsonplaceholder.typicode.com/users/${friend}`,
+    true,
+    [friend]
+  );
+
   return (
-    <div className='border p-5 text-center'>
+    <div className='w-2/3 border p-5 text-center'>
       <Title text='Hi,' name={name} />
       <Body>
         <h3 className='text-center text-2xl'>myState : {myState}</h3>
-        This is Hello Body Component. {v} - {age}
+        {isLoading && (
+          <h3>
+            <FaSpinner size={20} className='animate-spin text-blue-500' />
+          </h3>
+        )}
+        {error ? (
+          <strong className='text-red-500'>
+            {error.message && error.message.startsWith('404')
+              ? `Your friend is not found ${friend}`
+              : error.message}
+          </strong>
+        ) : (
+          <strong className='text-blue-500'>
+            My friend is {friendInfo?.username}
+          </strong>
+        )}
+        <p>
+          {v} - {friend}
+        </p>
       </Body>
       <button
         className='btn'

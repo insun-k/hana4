@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 // import './App.css';
 import Hello, { MyHandler } from './components/Hello';
 import My from './components/My';
@@ -23,6 +23,7 @@ function App() {
   // *const [session, setSession] = useState<Session>(SampleSession);
 
   const myHandleRef = useRef<MyHandler>(null);
+  const [friend, setFriend] = useState(10);
 
   // const plusCount = () => setCount((count) => count + 1);
   // // const plusCount = () => {setCount((pre) => pre + 1); setCount((count) => count + 1)} => 2씩 증가..?
@@ -65,15 +66,25 @@ function App() {
       {/* <h1>rbvite</h1> */}
       <hr />
       {/* <pre className='mt-5'>{JSON.stringify(session.loginUser)}</pre> */}
-      <Hello
-        name='React!'
-        age={33}
-        // plusCount={plusCount}
-        // minusCount={minusCount}
-        ref={myHandleRef}
-      />
 
       <SessionProvider>
+        <div className='mb-3 w-64'>
+          <input
+            type='number'
+            defaultValue={friend}
+            onChange={(e) => setFriend(+e.currentTarget.value)}
+            placeholder='friend id...'
+            className='inp'
+          ></input>
+        </div>
+        <Hello
+          name='React!'
+          friend={friend}
+          // plusCount={plusCount}
+          // minusCount={minusCount}
+          ref={myHandleRef}
+        />
+
         <My />
       </SessionProvider>
 

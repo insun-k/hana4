@@ -54,10 +54,10 @@ export const SessionProvider = ({ children }: PropsWithChildren) => {
 
   const logout = () => setSession({ ...session, loginUser: null });
 
-  const data = useFetch<Session>('/data/sample.json') || SampleSession;
+  const { data } = useFetch<Session>('/data/sample.json');
   useLayoutEffect(() => {
     // effect보다(useFetch) 빨리 실행하려고 LayoutEffect사용
-    setSession(data);
+    setSession(data || SampleSession);
   }, [data]);
 
   const loginRef = useRef<LoginHandler>(null);
