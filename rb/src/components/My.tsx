@@ -2,7 +2,14 @@ import { FaPlus } from 'react-icons/fa';
 // import { Session } from '../App.tsx';
 import Login, { LoginHandler } from './Login.tsx';
 import Profile from './Profile.tsx';
-import { ForwardedRef, forwardRef, useEffect, useRef } from 'react';
+import {
+  ForwardedRef,
+  forwardRef,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+} from 'react';
 import Button from './atoms/Button.tsx';
 import { useSession } from '../hooks/session-context.tsx';
 import Item from './Item.tsx';
@@ -56,6 +63,19 @@ export default forwardRef(function My(
   //   priceRef.current.value = '';
   //   nameRef.current.focus();
   // };
+
+  const totalPrice = useMemo(
+    () => session.cart.reduce((acc, item) => acc + item.price, 0),
+    [session.cart] // [session] 으로만 잡으면 loginUser와 연관 -> login,logout 때도 영향
+  );
+  const dcPrice = useMemo(
+    () => totalPrice * 0.1,
+    [totalPrice] // [session] 으로만 잡으면 loginUser와 연관 -> login,logout 때도 영향
+  );
+
+  useLayoutEffect(() => {
+    console.log('!!!!!!!!!!!!!', totalPrice);
+  }, [totalPrice]);
 
   let xxx = 0;
   useTimeout(() => {
@@ -123,6 +143,10 @@ export default forwardRef(function My(
           )}
         </li>
       </ul>
+      <div className='flex flex-col'>
+        <span>총액 : {totalPrice.toLocaleString()}원</span>
+        <span>할인 : {dcPrice.toFixed(0).toLocaleString()}원</span>
+      </div>
     </>
   );
 });
