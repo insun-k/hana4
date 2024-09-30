@@ -9,7 +9,7 @@ import useToggle from './hooks/toggle';
 
 function App() {
   const myHandleRef = useRef<MyHandler>(null);
-  const [, toggle] = useToggle();
+  const [, toggleSearch] = useToggle();
   const [friend, setFriend] = useState(10);
 
   const friendRef = useRef<HTMLInputElement>(null);
@@ -43,7 +43,7 @@ function App() {
             type='number'
             defaultValue={friend}
             //onChange={(e) => setFriend(+e.currentTarget.value)}
-            onChange={toggle}
+            onChange={toggleSearch}
             ref={friendRef}
             placeholder='friend id...'
             className='inp'

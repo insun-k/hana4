@@ -1,4 +1,10 @@
-import { createContext, PropsWithChildren, useContext, useState } from 'react';
+import {
+  createContext,
+  PropsWithChildren,
+  useContext,
+  useReducer,
+  //seState,
+} from 'react';
 
 type CounterContextProps = {
   count: number;
@@ -13,15 +19,31 @@ const CounterContext = createContext<CounterContextProps>({
   minusCount: () => {},
 });
 
+type Action = {
+  type: 'plus' | 'minus';
+  payload: number;
+};
+
+// 렌더링 되지않는 밖에 만드는게 효율적
+const reducer = (count: number, { type, payload }: Action) => {
+  if (type === 'plus') return count + payload;
+  if (type === 'minus') return count - payload;
+  return count;
+};
+
 export const CounterProvider = ({ children }: PropsWithChildren) => {
-  const [count, setCount] = useState(0);
-  const plusCount = () => {
+  // const [count, setCount] = useState(0);   // !! useState 버전
+  // !! useReducer 버전
+  const [count, dispatch] = useReducer(reducer, 0);
+  const plusCount = (step: number = 1) => {
     //console.log('plus!!');
-    setCount((pre) => pre + 1);
+    // setCount((pre) => pre + 1);
+    dispatch({ type: 'plus', payload: step });
   };
-  const minusCount = () => {
+  const minusCount = (step: number = 1) => {
     //console.log('minus!!');
-    setCount((pre) => pre - 1);
+    // setCount((pre) => pre - 1);
+    dispatch({ type: 'minus', payload: step });
   };
 
   return (

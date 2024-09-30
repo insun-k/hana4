@@ -8,6 +8,7 @@ import {
   useEffect,
   useLayoutEffect,
   useMemo,
+  useReducer,
   useRef,
   useState,
 } from 'react';
@@ -31,13 +32,9 @@ export default forwardRef(function My(
 ) {
   const { session } = useSession();
   const logoutButtonRef = useRef<HTMLButtonElement>(null);
-  // const nameRef = useRef<HTMLInputElement>(null);
-  // const priceRef = useRef<HTMLInputElement>(null);
 
-  // const [isAdding, setIsAdding] = useState(false);
-  //const toggleAdding = () => setIsAdding((pre) => !pre);
-
-  const [isAdding, toggleAdding] = useToggle(true);
+  // const [isAdding, toggleAdding] = useToggle(true);
+  const [isAdding, toggleAdding] = useReducer((pre) => !pre, false);
 
   const [, toggleSearch] = useToggle();
   const [searchstr, setSearchstr] = useState('');
@@ -135,7 +132,7 @@ export default forwardRef(function My(
             {isAdding ? (
               <Item
                 item={{ id: 0, name: '', price: 0 }}
-                toggleAdding={() => toggleAdding(true)}
+                toggleAdding={() => toggleAdding()}
               />
             ) : (
               <Button onClick={toggleAdding}>
