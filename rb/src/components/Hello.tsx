@@ -88,7 +88,7 @@ function Hello({ name, friend }: Props, ref: ForwardedRef<MyHandler>) {
           </strong>
         ) : (
           <strong className='text-blue-500'>
-            My friend is {friendInfo?.username}
+            My friend is {friendInfo?.id}.{friendInfo?.username}
           </strong>
         )}
         <p>

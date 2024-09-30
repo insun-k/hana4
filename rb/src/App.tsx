@@ -16,7 +16,7 @@ function App() {
 
   useDebounce(
     () => {
-      console.log('useDebounce>>>');
+      console.log('useDebounce>>>', friendRef.current?.value);
       setFriend(+(friendRef.current?.value || 0)); // +undefined => NaN
     },
     1000,

@@ -19,7 +19,7 @@ ppp.then((x) => console.log("ppp.x=", x));
 
 p.then((x) => console.log("p.x=", x));
 
-.catch((error) => {
+p.catch((error) => {
   consoleog("🚀 ~ p.then ~ error:", error);
 });
 
