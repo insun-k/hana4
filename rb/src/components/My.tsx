@@ -74,7 +74,7 @@ export default forwardRef(function My(
   );
 
   useLayoutEffect(() => {
-    console.log('!!!!!!!!!!!!!', totalPrice);
+    // console.log('!!!!!!!!!!!!!', totalPrice);
   }, [totalPrice]);
 
   let xxx = 0;

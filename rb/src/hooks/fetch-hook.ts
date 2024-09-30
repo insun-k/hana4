@@ -27,12 +27,13 @@ export const useFetch = <T>(
   const [error, setError] = useState<ErrorWithMessage>();
 
   useEffect(() => {
+    console.log('useFetch>>', depArr);
     const abortcontroller = new AbortController();
     const { signal } = abortcontroller;
 
     (async function () {
       try {
-        console.log('cache11>>s', cache);
+        // console.log('cache11>>s', cache);
         if (isCache && url in cache) {
           // console.log('cccccc');
           return setResult(cache[url] as T);

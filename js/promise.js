@@ -19,6 +19,26 @@ ppp.then((x) => console.log("ppp.x=", x));
 
 p.then((x) => console.log("p.x=", x));
 
-// .cat((error) => {
-//   consoleog("🚀 ~ p.then ~ error:", error);
-// });
+.catch((error) => {
+  consoleog("🚀 ~ p.then ~ error:", error);
+});
+
+// const promiseFn = (id) =>
+//   new Promise((resolve, reject) => {
+//     console.log("id>>", id);
+//     if (id < 5) resolve(id + 1);
+//     else reject(new Error("???" + id));
+//   });
+
+// promiseFn(1)
+//   .then((res) => {
+//     console.log("res1>>", res);
+//     return promiseFn(res);
+//   })
+//   .then((res) => {
+//     console.log("res2>>", res);
+//     return promiseFn(res);
+//   })
+//   .then((res) => promiseFn(res))
+//   .then(promiseFn)
+//   .catch((error) => console.log(error));

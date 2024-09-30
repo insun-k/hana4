@@ -4,75 +4,47 @@ import Hello, { MyHandler } from './components/Hello';
 import My from './components/My';
 // import { type LoginHandler } from './components/Login';
 import { SessionProvider } from './hooks/session-context';
-
-// const SampleSession = {
-//   loginUser: { id: 1, name: 'Hong' },
-//   cart: [
-//     { id: 100, name: '라면', price: 3000 },
-//     { id: 101, name: '컵라면', price: 2000 },
-//     { id: 200, name: '파', price: 5000 },
-//   ],
-// };
-
-// type LoginUser = typeof SampleSession.loginUser;
-// type cartItem = { id: number; name: string; price: number };
-// export type Session = { loginUser: LoginUser | null; cart: cartItem[] };
+import { useDebounce } from './hooks/timer-hooks';
+import useToggle from './hooks/toggle';
 
 function App() {
-  // const [count, setCount] = useState(0);
-  // *const [session, setSession] = useState<Session>(SampleSession);
-
   const myHandleRef = useRef<MyHandler>(null);
+  const [, toggle] = useToggle();
   const [friend, setFriend] = useState(10);
 
-  // const plusCount = () => setCount((count) => count + 1);
-  // // const plusCount = () => {setCount((pre) => pre + 1); setCount((count) => count + 1)} => 2씩 증가..?
+  const friendRef = useRef<HTMLInputElement>(null);
 
-  // const minusCount = () => setCount(count - 1);
-
-  //*** session-context로 이동 */
-  // const logout = () => setSession({ ...session, loginUser: null });
-
-  // const loginRef = useRef<LoginHandler>(null);
-  // const login = (id: number, name: string) => {
-  //   if (!id) {
-  //     alert('Id를 입력하세요');
-  //     return loginRef.current?.focus('id');
-  //   }
-  //   if (!name) {
-  //     alert('name을 입력하세요');
-  //     return loginRef.current?.focus('name');
-  //   }
-  //   setSession({ ...session, loginUser: { id, name } });
-  // };
-
-  // const addCartItem = (name: string, price: number) => {
-  //   const id = Math.max(...session.cart.map(({ id }) => id), 0) + 1;
-  //   setSession({
-  //     ...session,
-  //     cart: [...session.cart, { id: id, name, price }],
-  //   });
-  // };
-
-  // const removeCartItem = (id: number) => {
-  //   setSession({
-  //     ...session,
-  //     cart: session.cart.filter((item) => item.id !== id),
-  //   });
-  // };
+  useDebounce(
+    () => {
+      console.log('useDebounce>>>');
+      setFriend(+(friendRef.current?.value || 0)); // +undefined => NaN
+    },
+    1000,
+    [friendRef.current?.value]
+  );
 
   return (
     <div className='mt-5 flex flex-col items-center'>
       {/* <h1>rbvite</h1> */}
       <hr />
       {/* <pre className='mt-5'>{JSON.stringify(session.loginUser)}</pre> */}
-
+      {/* <div className='m-3'>F: {friend}</div>
+      <div className='mb-4 flex flex-row gap-5'>
+        <button className='btn' onClick={reset}>
+          Reset
+        </button>
+        <button className='btn' onClick={clear}>
+          Clear
+        </button>
+      </div> */}
       <SessionProvider>
         <div className='mb-3 w-64'>
           <input
             type='number'
             defaultValue={friend}
-            onChange={(e) => setFriend(+e.currentTarget.value)}
+            //onChange={(e) => setFriend(+e.currentTarget.value)}
+            onChange={toggle}
+            ref={friendRef}
             placeholder='friend id...'
             className='inp'
           ></input>
