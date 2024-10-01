@@ -3,8 +3,8 @@ import {
   PropsWithChildren,
   useContext,
   useLayoutEffect,
+  useReducer,
   useRef,
-  useState,
 } from 'react';
 import { LoginHandler } from '../components/Login';
 import { useFetch } from './fetch-hook';
@@ -49,15 +49,71 @@ type SessionContextProps = Omit<typeof contextInitValue, 'session'> & {
 
 const SessionContext = createContext<SessionContextProps>(contextInitValue);
 
-export const SessionProvider = ({ children }: PropsWithChildren) => {
-  const [session, setSession] = useState<Session>(SampleSession);
+type Action =
+  | { type: 'intialize'; payload: Session }
+  | {
+      type: 'login';
+      payload: LoginUser;
+    }
+  | {
+      type: 'logout';
+      payload: null;
+    }
+  | {
+      type: 'addCartItem';
+      payload: CartItem;
+    }
+  | {
+      type: 'removeCartItem';
+      payload: number;
+    }
+  | {
+      type: 'editCartItem';
+      payload: CartItem;
+    };
 
-  const logout = () => setSession({ ...session, loginUser: null });
+const reducer = (session: Session, { type, payload }: Action) => {
+  switch (type) {
+    case 'intialize':
+      return payload;
+    case 'login':
+      return { ...session, loginUser: payload };
+    case 'logout':
+      return { ...session, payload };
+    case 'addCartItem':
+      return {
+        ...session,
+        cart: [...session.cart, payload],
+      };
+    case 'editCartItem':
+      return {
+        ...session,
+        cart: session.cart.map((oldItem) =>
+          oldItem.id === payload.id ? payload : oldItem
+        ),
+      };
+    case 'removeCartItem':
+      return {
+        ...session,
+        cart: session.cart.filter(({ id }) => id !== payload),
+      };
+    default:
+      return session;
+  }
+};
+
+export const SessionProvider = ({ children }: PropsWithChildren) => {
+  //const [session, setSession] = useState<Session>(SampleSession);
+  const [session, dispatchSession] = useReducer(reducer, SampleSession);
+
+  const logout = () => dispatchSession({ type: 'logout', payload: null });
+  //setSession({ ...session, loginUser: null });
 
   const { data } = useFetch<Session>('/data/sample.json');
   useLayoutEffect(() => {
     // effect보다(useFetch) 빨리 실행하려고 LayoutEffect사용
-    setSession(data || SampleSession);
+    // setSession(data || SampleSession);
+    dispatchSession({ type: 'intialize', payload: data || SampleSession });
   }, [data]);
 
   const loginRef = useRef<LoginHandler>(null);
@@ -71,31 +127,36 @@ export const SessionProvider = ({ children }: PropsWithChildren) => {
       return loginRef.current?.focus('name');
     }
     console.log('!!!', loginRef.current);
-    setSession({ ...session, loginUser: { id, name } });
+
+    // setSession({ ...session, loginUser: { id, name } });
+    dispatchSession({ type: 'login', payload: { id, name } });
   };
 
   const addCartItem = (name: string, price: number) => {
     const id = Math.max(...session.cart.map(({ id }) => id), 0) + 1;
-    setSession({
-      ...session,
-      cart: [...session.cart, { id: id, name, price }],
-    });
+    // setSession({
+    //   ...session,
+    //   cart: [...session.cart, { id: id, name, price }],
+    // });
+    dispatchSession({ type: 'addCartItem', payload: { id, name, price } });
   };
 
-  const removeCartItem = (id: number) => {
-    setSession({
-      ...session,
-      cart: session.cart.filter((item) => item.id !== id),
-    });
+  const removeCartItem = (toRemoveId: number) => {
+    // setSession({
+    //   ...session,
+    //   cart: session.cart.filter((item) => item.id !== id),
+    // });
+    dispatchSession({ type: 'removeCartItem', payload: toRemoveId });
   };
 
   const editCartItem = (item: CartItem) => {
-    setSession({
-      ...session,
-      cart: session.cart.map((oldItem) =>
-        oldItem.id === item.id ? item : oldItem
-      ),
-    });
+    // setSession({
+    //   ...session,
+    //   cart: session.cart.map((oldItem) =>
+    //     oldItem.id === item.id ? item : oldItem
+    //   ),
+    // });
+    dispatchSession({ type: 'editCartItem', payload: item });
   };
 
   return (
