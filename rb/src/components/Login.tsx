@@ -86,7 +86,7 @@ export default forwardRef(function Login(
   }, [count, plusCount, minusCount]);
 
   return (
-    <form onSubmit={signIn} className='m-5 border p-3 text-center'>
+    <form onSubmit={signIn} className='m-5 text-center'>
       <LabelInput
         label='ID'
         type='number'

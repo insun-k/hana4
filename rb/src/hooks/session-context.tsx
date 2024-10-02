@@ -9,6 +9,8 @@ import {
 import { LoginHandler } from '../components/Login';
 import { useFetch } from './fetch-hook';
 
+const SKEY = 'SESSION1';
+
 // useFetch로 대체
 // const SampleSession = {
 //   loginUser: { id: 1, name: 'Hong' },
@@ -20,7 +22,7 @@ import { useFetch } from './fetch-hook';
 // };
 
 const SampleSession = {
-  loginUser: null,
+  loginUser: { id: 0, name: '' },
   cart: [],
 };
 
@@ -73,48 +75,69 @@ type Action =
     };
 
 const reducer = (session: Session, { type, payload }: Action) => {
+  let sess: Session;
   switch (type) {
     case 'intialize':
       return payload;
     case 'login':
       return { ...session, loginUser: payload };
     case 'logout':
-      return { ...session, payload };
+      return { ...session, loginUser: null };
     case 'addCartItem':
-      return {
+      sess = {
         ...session,
         cart: [...session.cart, payload],
       };
+      break;
     case 'editCartItem':
-      return {
+      sess = {
         ...session,
         cart: session.cart.map((oldItem) =>
           oldItem.id === payload.id ? payload : oldItem
         ),
       };
+      break;
     case 'removeCartItem':
-      return {
+      sess = {
         ...session,
         cart: session.cart.filter(({ id }) => id !== payload),
       };
+      break;
     default:
       return session;
   }
+
+  if (sess) {
+    localStorage.setItem(SKEY, JSON.stringify(sess.cart));
+  }
+
+  return sess;
 };
 
 export const SessionProvider = ({ children }: PropsWithChildren) => {
   //const [session, setSession] = useState<Session>(SampleSession);
   const [session, dispatchSession] = useReducer(reducer, SampleSession);
 
-  const logout = () => dispatchSession({ type: 'logout', payload: null });
   //setSession({ ...session, loginUser: null });
+  const logout = () => dispatchSession({ type: 'logout', payload: null });
+  sessionStorage.removeItem(SKEY);
 
   const { data } = useFetch<Session>('/data/sample.json');
   useLayoutEffect(() => {
+    const loginUser = JSON.parse(
+      sessionStorage.getItem(SKEY) || 'null'
+    ) as LoginUser;
+
+    const cart = JSON.parse(localStorage.getItem(SKEY) || 'null') as CartItem[];
+
+    const savedData = loginUser || cart ? { loginUser, cart } : null;
     // effect보다(useFetch) 빨리 실행하려고 LayoutEffect사용
     // setSession(data || SampleSession);
-    dispatchSession({ type: 'intialize', payload: data || SampleSession });
-  }, [data]);
+    dispatchSession({
+      type: 'intialize',
+      payload: savedData || data || SampleSession,
+    });
+  }, [data, dispatchSession]);
 
   const loginRef = useRef<LoginHandler>(null);
   const login = (id: number, name: string) => {
@@ -126,7 +149,8 @@ export const SessionProvider = ({ children }: PropsWithChildren) => {
       alert('name을 입력하세요');
       return loginRef.current?.focus('name');
     }
-    console.log('!!!', loginRef.current);
+
+    sessionStorage.setItem('SESSION1', JSON.stringify({ id, name }));
 
     // setSession({ ...session, loginUser: { id, name } });
     dispatchSession({ type: 'login', payload: { id, name } });

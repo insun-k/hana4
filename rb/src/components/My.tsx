@@ -17,6 +17,7 @@ import { useSession } from '../hooks/session-context.tsx';
 import Item from './Item.tsx';
 import useToggle from '../hooks/toggle.ts';
 import { useDebounce, useTimeout } from '../hooks/timer-hooks.ts';
+import clsx from 'clsx';
 
 // type Props = {
 //   session: Session; // App에서 export한 type 사용
@@ -92,16 +93,26 @@ export default forwardRef(function My(
 
   return (
     <>
-      {session.loginUser ? (
-        <div className='flex-col items-center'>
-          <Profile ref={logoutButtonRef} xxx={xxx} />
-          <Button onClick={() => logoutButtonRef.current?.click()}>
-            My SignOut
-          </Button>
-        </div>
-      ) : (
-        <Login ref={ref} />
-      )}
+      <div
+        className={clsx(
+          !session.loginUser && 'mt-4 border-2 border-red-400 p-2'
+        )}
+      >
+        {session.loginUser ? (
+          <div className='flex-col items-center'>
+            <Profile ref={logoutButtonRef} xxx={xxx} />
+            <Button
+              onClick={() => {
+                logoutButtonRef.current?.click();
+              }}
+            >
+              My SignOut
+            </Button>
+          </div>
+        ) : (
+          <Login ref={ref} />
+        )}
+      </div>
       <div className='m-4 w-2/3 border p-4'>
         <div className='flex gap-3'>
           <FaSearch />

@@ -3,11 +3,16 @@ import {
   forwardRef,
   ReactNode,
   useImperativeHandle,
+  useReducer,
+  // useReducer,
   useState,
 } from 'react';
 import { useCounter } from '../hooks/counter-hook';
 import { useFetch } from '../hooks/fetch-hook';
 import { FaSpinner } from 'react-icons/fa';
+import Button from './atoms/Button';
+import useToggle from '../hooks/toggle';
+import clsx from 'clsx';
 
 //const Title = (props: { text: string }) => <h1>{props.text}</h1>;
 
@@ -52,6 +57,11 @@ function Hello({ name, friend }: Props, ref: ForwardedRef<MyHandler>) {
   // Hello => container componentis
   const { count, plusCount, minusCount } = useCounter();
   const [myState, setMyState] = useState(0); // 상태
+
+  const [isPStrong, togglePStrong] = useToggle(false);
+  const [p, dispatchP] = useReducer((pre) => pre + 10, 0);
+  const [q, dispatchQ] = useReducer((pre) => pre + 10, 0);
+
   let v = 1;
   // console.log('**************', v, myState);
 
@@ -72,7 +82,35 @@ function Hello({ name, friend }: Props, ref: ForwardedRef<MyHandler>) {
 
   return (
     <div className='w-2/3 border p-5 text-center'>
-      <Title text='Hi,' name={name} />
+      <div className='mb-2 flex justify-around'>
+        <Title text='Hi,' name={name} />
+        {/* clsx 사용법 2가지 */}
+        <span className={clsx('text-xl', isPStrong && 'text-blue-500')}>
+          p: {p}
+        </span>
+        <span
+          className={clsx({ 'text-xl': true, 'text-blue-500': !isPStrong })}
+        >
+          q: {q}
+        </span>
+        <Button
+          onClick={() => {
+            dispatchP();
+            togglePStrong(true);
+          }}
+        >
+          PPP
+        </Button>
+        <Button
+          onClick={() => {
+            dispatchQ();
+            togglePStrong(false);
+          }}
+        >
+          QQQ
+        </Button>
+      </div>
+
       <Body>
         <h3 className='text-center text-2xl'>myState : {myState}</h3>
         {isLoading && (

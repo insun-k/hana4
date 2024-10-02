@@ -1,5 +1,4 @@
 import { useRef, useState } from 'react';
-// import './App.css';
 import Hello, { MyHandler } from './components/Hello';
 import My from './components/My';
 // import { type LoginHandler } from './components/Login';
@@ -7,10 +6,17 @@ import { SessionProvider } from './hooks/session-context';
 import { useDebounce } from './hooks/timer-hooks';
 import useToggle from './hooks/toggle';
 
+// const ColorTitle = ({ color }: { color: string }) => {
+//   console.log('@@@ ColorTitle!!', color);
+//   return <h2 style={{ color }}>MEMO</h2>;
+// };
+
 function App() {
   const myHandleRef = useRef<MyHandler>(null);
   const [, toggleSearch] = useToggle();
   const [friend, setFriend] = useState(10);
+
+  // const [color, changeColor] = useReducer(() => 'blue', 'red');
 
   const friendRef = useRef<HTMLInputElement>(null);
 
@@ -37,6 +43,8 @@ function App() {
           Clear
         </button>
       </div> */}
+
+      {/* <ColorTitle color={color} /> */}
       <SessionProvider>
         <div className='mb-3 w-64'>
           <input
