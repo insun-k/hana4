@@ -23,8 +23,8 @@ type TitleProps = {
 };
 
 type Props = {
-  name: string;
-  friend: number;
+  name?: string;
+  friend?: number;
   // plusCount: () => void;
   // minusCount: () => void;
 };
@@ -53,7 +53,10 @@ type PlaceUser = {
   email: string;
 };
 
-function Hello({ name, friend }: Props, ref: ForwardedRef<MyHandler>) {
+function Hello(
+  { name = 'xxx', friend = 10 }: Props,
+  ref: ForwardedRef<MyHandler>
+) {
   // Hello => container componentis
   const { count, plusCount, minusCount } = useCounter();
   const [myState, setMyState] = useState(0); // 상태
@@ -81,7 +84,7 @@ function Hello({ name, friend }: Props, ref: ForwardedRef<MyHandler>) {
   );
 
   return (
-    <div className='w-2/3 border p-5 text-center'>
+    <div className='w-full border p-5 text-center'>
       <div className='mb-2 flex justify-around'>
         <Title text='Hi,' name={name} />
         {/* clsx 사용법 2가지 */}

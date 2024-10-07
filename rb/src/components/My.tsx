@@ -1,22 +1,10 @@
-import { FaPlus, FaSearch } from 'react-icons/fa';
 // import { Session } from '../App.tsx';
 import Login, { LoginHandler } from './Login.tsx';
 import Profile from './Profile.tsx';
-import {
-  ForwardedRef,
-  forwardRef,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useReducer,
-  useRef,
-  useState,
-} from 'react';
+import { ForwardedRef, forwardRef, useEffect, useRef } from 'react';
 import Button from './atoms/Button.tsx';
 import { useSession } from '../hooks/session-context.tsx';
-import Item from './Item.tsx';
-import useToggle from '../hooks/toggle.ts';
-import { useDebounce, useTimeout } from '../hooks/timer-hooks.ts';
+import { useTimeout } from '../hooks/timer-hooks.ts';
 import clsx from 'clsx';
 
 // type Props = {
@@ -35,33 +23,33 @@ export default forwardRef(function My(
   const logoutButtonRef = useRef<HTMLButtonElement>(null);
 
   // const [isAdding, toggleAdding] = useToggle(true);
-  const [isAdding, toggleAdding] = useReducer((pre) => !pre, false);
+  // const [isAdding, toggleAdding] = useReducer((pre) => !pre, false);
 
-  const [, toggleSearch] = useToggle();
-  const [searchstr, setSearchstr] = useState('');
-  const searchRef = useRef<HTMLInputElement>(null);
+  // const [, toggleSearch] = useToggle();
+  // const [searchstr, setSearchstr] = useState('');
+  // const searchRef = useRef<HTMLInputElement>(null);
 
-  useDebounce(
-    () => {
-      console.log('useDebounce.search>>', searchRef.current?.value);
-      setSearchstr(searchRef.current?.value || '');
-    },
-    1000,
-    [searchRef.current?.value]
-  );
+  // useDebounce(
+  //   () => {
+  //     console.log('useDebounce.search>>', searchRef.current?.value);
+  //     setSearchstr(searchRef.current?.value || '');
+  //   },
+  //   1000,
+  //   [searchRef.current?.value]
+  // );
 
-  const totalPrice = useMemo(
-    () => session.cart.reduce((acc, item) => acc + item.price, 0),
-    [session.cart] // [session] 으로만 잡으면 loginUser와 연관 -> login,logout 때도 영향
-  );
-  const dcPrice = useMemo(
-    () => totalPrice * 0.1,
-    [totalPrice] // [session] 으로만 잡으면 loginUser와 연관 -> login,logout 때도 영향
-  );
+  // const totalPrice = useMemo(
+  //   () => session.cart.reduce((acc, item) => acc + item.price, 0),
+  //   [session.cart] // [session] 으로만 잡으면 loginUser와 연관 -> login,logout 때도 영향
+  // );
+  // const dcPrice = useMemo(
+  //   () => totalPrice * 0.1,
+  //   [totalPrice] // [session] 으로만 잡으면 loginUser와 연관 -> login,logout 때도 영향
+  // );
 
-  useLayoutEffect(() => {
-    // console.log('!!!!!!!!!!!!!', totalPrice);
-  }, [totalPrice]);
+  // useLayoutEffect(() => {
+  //   // console.log('!!!!!!!!!!!!!', totalPrice);
+  // }, [totalPrice]);
 
   let xxx = 0;
   useTimeout(() => {
@@ -113,7 +101,7 @@ export default forwardRef(function My(
           <Login ref={ref} />
         )}
       </div>
-      <div className='m-4 w-2/3 border p-4'>
+      {/* <div className='m-4 w-2/3 border p-4'>
         <div className='flex gap-3'>
           <FaSearch />
           <input
@@ -157,7 +145,7 @@ export default forwardRef(function My(
       <div className='flex flex-col'>
         <span>총액 : {totalPrice.toLocaleString()}원</span>
         <span>할인 : {dcPrice.toFixed(0).toLocaleString()}원</span>
-      </div>
+      </div> */}
     </>
   );
 });

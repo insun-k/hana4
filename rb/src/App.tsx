@@ -5,6 +5,14 @@ import My from './components/My';
 import { SessionProvider } from './hooks/session-context';
 import { useDebounce } from './hooks/timer-hooks';
 import useToggle from './hooks/toggle';
+import Nav from './Nav';
+import { Route, Routes } from 'react-router-dom';
+import Login from './components/Login';
+import { NotFound } from './NotFound';
+import Home from './Home';
+import Items from './components/Items';
+import ItemLayout from './components/ItemLayout';
+import ItemDetail from './components/ItemDetail';
 
 // const ColorTitle = ({ color }: { color: string }) => {
 //   console.log('@@@ ColorTitle!!', color);
@@ -30,7 +38,7 @@ function App() {
   );
 
   return (
-    <div className='mt-5 flex flex-col items-center'>
+    <div className='flex flex-col items-center'>
       {/* <h1>rbvite</h1> */}
       <hr />
       {/* <pre className='mt-5'>{JSON.stringify(session.loginUser)}</pre> */}
@@ -46,7 +54,24 @@ function App() {
 
       {/* <ColorTitle color={color} /> */}
       <SessionProvider>
-        <div className='mb-3 w-64'>
+        <Nav />
+        <div className='mt-9 w-1/2'>
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/my' element={<My />} />
+            {/* <Route path='/items' element={<Items />} /> */}
+            {/* <Route path='/items/:id' element={<Item />} /> */}
+            <Route path='/items' element={<ItemLayout />}>
+              <Route index element={<Items />} />
+              <Route path=':id' element={<ItemDetail />} />
+            </Route>
+            <Route path='/hello' element={<Hello ref={myHandleRef} />} />
+            <Route path='*' element={<NotFound />} />
+          </Routes>
+        </div>
+
+        <div className='m-3 flex w-64'>
           <input
             type='number'
             defaultValue={friend}
@@ -57,7 +82,7 @@ function App() {
             className='inp'
           ></input>
         </div>
-        <Hello
+        {/* <Hello
           name='React!'
           friend={friend}
           // plusCount={plusCount}
@@ -65,7 +90,7 @@ function App() {
           ref={myHandleRef}
         />
 
-        <My />
+        <My /> */}
       </SessionProvider>
 
       {/* <My
