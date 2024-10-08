@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 
 type Props = {
   //text: string;
-  variant?: string;
+  variant?: '' | 'btn-primary' | 'btn-danger' | 'btn-success';
   classNames?: string;
 } & ButtonHTMLAttributes<HTMLButtonElement>; // onclick 넣는 대신 BUTTON에 해당하는 모든 기능
 
