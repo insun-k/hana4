@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export default function Me() {
-  console.log('Me!!!!'); // console에 찍힘 -> 클라이언트 사용
+  // console.log('Me!!!!'); // console에 찍힘 -> 클라이언트 사용
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
