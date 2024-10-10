@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import Modal from '@/components/Modal';
 
 export default function Me() {
   // console.log('Me!!!!'); // console에 찍힘 -> 클라이언트 사용
@@ -25,13 +26,13 @@ export default function Me() {
   };
 
   return (
-    <>
+    <Modal>
       <div className='flex justify-between text-sm'>
         <button onClick={goBack}>Back</button>
         <button onClick={goHello}>Hello</button>
         <button onClick={() => changeSearchParams('999')}>change-xxx</button>
       </div>
       Me Page: {pathname}?xxx={searchParams.get('xxx')}
-    </>
+    </Modal>
   );
 }
