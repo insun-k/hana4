@@ -1,15 +1,19 @@
 import { getTodos } from '@/lib/todos';
 
-// export function generateStaticParams() {
-//   // return await getTodos().map(todo => {id: todo.id})
-//   return [{ id: '1' }, { id: '2' }];
-// }
+// 미리 만들어놓기 -> 동일한 콘텐츠를 가져오는 경우 중복 제거
+export async function generateStaticParams() {
+  return (await getTodos(1)).map(({ id }) => ({
+    id: id.toString(),
+  }));
+  //   return [{ id: '1' }, { id: '2' }];
+}
 
 export default async function AboutTodo({
   params: { id },
 }: {
   params: { id: string };
 }) {
+  console.log('id>>', id);
   const todos = await getTodos(1);
   const todo = todos.find((td) => td.id === +id);
   if (!todo) {
