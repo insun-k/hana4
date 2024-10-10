@@ -1,5 +1,7 @@
 import { getTodos } from '@/lib/todos';
 
+export const revalidate = 5;
+
 // 미리 만들어놓기 -> 동일한 콘텐츠를 가져오는 경우 중복 제거
 export async function generateStaticParams() {
   return (await getTodos(1)).map(({ id }) => ({

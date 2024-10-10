@@ -9,7 +9,8 @@ const BaseURL = 'https://jsonplaceholder.typicode.com';
 
 export const getTodos = async (userId: number = 1) => {
   const data = await fetch(`${BaseURL}/todos?userId=${userId}`, {
-    cache: 'force-cache',
+    cache: 'force-cache', // SSG
+    // next: { revalidate: 10 },
   }).then((res) => res.json());
 
   // 방법1
@@ -21,4 +22,11 @@ export const getTodos = async (userId: number = 1) => {
 
   //방법3
   return data as Todo[];
+};
+
+export const getTodo = async (todoId: number = 1) => {
+  const data = await fetch(`${BaseURL}/todos/${todoId}`, {
+    next: { revalidate: 10 }, //ISR
+  }).then((res) => res.json());
+  return data as Todo;
 };
