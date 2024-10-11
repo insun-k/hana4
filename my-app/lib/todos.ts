@@ -5,6 +5,14 @@ export type Todo = {
   completed: boolean;
 };
 
+export type Album = {
+  albumId: number;
+  id: number;
+  title: string;
+  url: string;
+  thumbnailUrl: string;
+};
+
 const BaseURL = 'https://jsonplaceholder.typicode.com';
 
 export const getTodos = async (userId: number = 1) => {
