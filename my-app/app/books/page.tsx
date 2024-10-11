@@ -1,5 +1,6 @@
 'use client';
 
+import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useLayoutEffect, useState } from 'react';
 import { Input } from '@/components/ui/input';
@@ -9,6 +10,8 @@ export default function Books() {
   const [books, setBooks] = useState<Book[]>([]);
   const [searchStr, setSearchStr] = useState('');
 
+  const { data: session } = useSession();
+  console.log('🚀 ~ Books ~ session:', session);
   // const { data } = useFetch<Book[]>(`${NEXT_PUBLIC_URL}/api/books`);
 
   useLayoutEffect(() => {
@@ -22,7 +25,7 @@ export default function Books() {
 
   return (
     <>
-      <h1 className='text-2xl'>My Books</h1>
+      <h1 className='text-2xl'>{session?.user?.name} Books</h1>
       <Input
         onChange={(e) => setSearchStr(e.currentTarget.value)}
         placeholder='title or writer...'
