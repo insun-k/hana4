@@ -2,6 +2,7 @@ package tryThis;
 
 import java.util.Scanner;
 
+// MyScan ms = new MyScan();
 public class MyScan {
 	public static void main(String[] args) {
 		// scanUserInfo();
