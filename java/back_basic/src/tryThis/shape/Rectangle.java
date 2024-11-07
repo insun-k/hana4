@@ -1,6 +1,6 @@
 package tryThis.shape;
 
-public class Rectangle {
+public class Rectangle extends Shape implements Resizable {
 	private double length;
 	private double width;
 
@@ -38,9 +38,21 @@ public class Rectangle {
 	}
 
 	@Override
+	public void resize(int percent) {
+		setLength(this.length * (1 + (double)percent / 100));
+		setWidth(this.width * (1 + (double)percent / 100));
+	}
+
+	@Override
+	double calArea() {
+		return getArea();
+	}
+
+	@Override
 	public String toString() {
 		return "Rectangle[length=%.1f, width=%.1f]의 둘레는 %.1f, 면적은 %.1f".formatted(length, width, getPerimeter(),
 			getArea());
 
 	}
+
 }

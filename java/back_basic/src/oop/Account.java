@@ -6,7 +6,7 @@ public class Account {
 	private int accountNo;
 	private String name;
 	private double balance;
-	Scanner scan = new Scanner(System.in);
+	public Scanner scan;
 
 	public Account(int accountNo, String name, double balance) {
 		this.accountNo = accountNo;
@@ -16,6 +16,30 @@ public class Account {
 
 	public Account(int accountNo, String name) {
 		this(accountNo, name, 0);
+	}
+
+	public static void showSelectAccounts(Account[] accounts) {
+		showSelectAccounts(accounts, null);
+	}
+
+	public static void showSelectAccounts(Account[] account, Account me) {
+		StringBuilder msg = new StringBuilder();
+		for (Account acc : account) {
+			int no = acc.getAccountNo();
+			// 내계좌는 제외하고 보여주기
+			if (me != null && no == me.getAccountNo()) {
+				continue;
+			}
+
+			String name = acc.getName();
+			if (msg.isEmpty()) {
+				msg.append("(%d:%s".formatted(no, name));
+			} else {
+				msg.append(", %d:%s".formatted(no, name));
+			}
+		}
+		msg.append("): ");
+		System.out.println(msg);
 	}
 
 	public int getAccountNo() {
@@ -44,12 +68,13 @@ public class Account {
 	}
 
 	// 출금
-	private void withdraw() {
+	private void withdraw() throws NotEnoughException {
 		System.out.print("출금할 금액은 ? ");
 		double amnt = scan.nextDouble();
 		if (this.balance < amnt) {
-			System.out.println("잔액이 부족하여 출금할 수 없음!\n");
-			return;
+			// System.out.println("잔액이 부족하여 출금할 수 없음!\n");
+			// return;
+			throw new NotEnoughException("잔액");
 		}
 		this.balance -= amnt;
 		System.out.printf("%2.1f원이 출금되었습니다\n", amnt);
@@ -94,16 +119,41 @@ public class Account {
 		return this.balance;
 	}
 
-	public void login() {
-		if (this.scan != null) {
-			this.scan = new Scanner(System.in);
+	public void transfer(Account[] accounts) {
+		if (this.isNotValidScan()) {
+			return;
 		}
+		// 2. 다른 계좌 선택
+		System.out.println("누구에게 송금하시겠어요? ");
+		Account.showSelectAccounts(accounts);
+		int selectedAccNo = this.scan.nextInt();
+		Account toAccount = accounts[selectedAccNo - 1];
+
+		// 3. 송금 금액 입력
+		System.out.println("얼마를 송금하시겠어요?");
+		double transAmount = this.transferTo(toAccount, this.scan.nextInt());
 	}
 
-	private void action() {
+	public void login() {
+		this.login(null);
+	}
+
+	public void login(Scanner scan) {
+		if (this.scan != null) {
+			if (scan != null) {
+				this.scan = scan;
+			} else {
+				this.scan = new Scanner(System.in);
+			}
+		}
+		this.display();
+	}
+
+	void action() throws NotEnoughException {
 		if (this.scan == null) {
 			System.out.println("로그인 먼저 하세요");
 		}
+
 		LOOP:
 		while (true) {
 			System.out.print("Command(+ : 입금, - : 출금, q : 종료) : ");
@@ -126,6 +176,15 @@ public class Account {
 		}
 	}
 
+	private boolean isNotValidScan() {
+		if (this.scan == null) {
+			System.out.println("먼저 로그인하세요!");
+			return true;
+
+		}
+		return false;
+	}
+
 	public void logout() {
 		if (this.scan != null) {
 			this.scan.close();
@@ -139,38 +198,33 @@ public class Account {
 
 	}
 
+}
+
+class T {
 	public static void main(String[] args) {
-		Account acc1 = new Account(1, "코난", 100000);
-		Account acc2 = new Account(2, "장미", 100000);
-		Account acc3 = new Account(3, "미란", 100000);
+		// Account acc1 = new Account(1, "코난", 100000);
+		// Account acc2 = new Account(2, "장미", 100000);
+		// Account acc3 = new Account(3, "미란", 100000);
+		//
+		// Account[] accounts = new Account[] {acc1, acc2, acc3};
+		//
+		// // 1. 계좌 선택
+		// Scanner scan = new Scanner(System.in);
+		// System.out.println("계좌를 선택하세요: ");
+		// Account.showSelectAccounts(accounts);
+		// int selectedAccNo = scan.nextInt();
+		// Account woringAccount = accounts[selectedAccNo - 1];
+		// woringAccount.login(scan);
+		// woringAccount.transfer(accounts);
+		// woringAccount.logout();
 
-		Account[] accounts = new Account[] {acc1, acc2, acc3};
+		Account acc = new Account(111, "Hong", 10000);
 
-		// 1. 계좌 선택
-		Scanner sc = new Scanner(System.in);
-		System.out.println("계좌를 선택하세요: ");
-		for (Account acc : accounts) {
-			System.out.printf("%d : %s, ", acc.getAccountNo(), acc.getName());
-		}
-		System.out.print(": ");
-		int selectedAccNo = sc.nextInt();
-		Account woringAccount = accounts[selectedAccNo - 1];
-
-		// 2. 다른 계좌 선택
-		System.out.println("누구에게 송금하시겠어요? ");
-		for (Account acc : accounts) {
-			System.out.printf("%d : %s, ", acc.getAccountNo(), acc.getName());
-		}
-		System.out.print(": ");
-		selectedAccNo = sc.nextInt();
-		Account toAccount = accounts[selectedAccNo - 1];
-
-		// 3. 송금 금액 입력
-		System.out.println("얼마를 송금하시겠어요?");
-		double transAmount = woringAccount.transferTo(toAccount, sc.nextInt());
-
-		// acc1.login();
-		// acc1.action();
-		// acc1.logout();
+		// acc.login();
+		// try{
+		//
+		// acc.action();
+		// }
+		acc.logout();
 	}
 }
