@@ -1,4 +1,4 @@
-package school;
+package tryThis.school;
 
 import java.io.InputStream;
 import java.util.Scanner;
