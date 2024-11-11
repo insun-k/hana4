@@ -10,18 +10,28 @@ public class MyScanner {
 		this(System.in);
 	}
 
-	public MyScanner(InputStream inputStream) {
-		this.scanner = new Scanner(inputStream);
+	public MyScanner(InputStream inputStreams) {
+		this.scanner = new Scanner(inputStreams);
 	}
 
 	public int scanInt(String message) {
-		System.out.println(message);
+		System.out.print(message);
 		return this.scanner.nextInt();
 	}
 
+	public double scanDouble(String message) {
+		System.out.print(message);
+		return this.scanner.nextDouble();
+	}
+
 	public String scan(String message) {
-		System.out.println(message);
+		System.out.print(message);
 		return this.scanner.next();
+	}
+
+	public String scanLine(String message) {
+		System.out.print(message);
+		return this.scanner.nextLine();
 	}
 
 	public void close() {
@@ -30,7 +40,7 @@ public class MyScanner {
 
 	public static void main(String[] args) {
 		MyScanner myscan = new MyScanner();
-		int intr = myscan.scanInt("점수를 입력하세요 : ");
+		int intr = myscan.scanInt("xxx: ");
 		System.out.println("intr = " + intr);
 	}
 }

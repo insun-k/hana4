@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 public class CollectionsEx {
 	private static final String[] MOVIES = {"트랜스포머", "스타워즈", "매트릭스", "터미네이터", "아바타"};
@@ -11,6 +13,9 @@ public class CollectionsEx {
 	public static void main(String[] args) {
 		List<String> list = new LinkedList<>(Arrays.asList(MOVIES));
 		System.out.println(list);
+
+		Queue<String> queue = new PriorityQueue<>(5);
+		queue.offer("ABC");
 
 		Collections.reverse(list);
 		System.out.println(list);
