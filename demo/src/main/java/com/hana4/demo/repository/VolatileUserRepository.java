@@ -7,20 +7,23 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
-import domain.User;
+import org.springframework.stereotype.Repository;
 
-public class VolatileUserRepository implements UserRepository{
+import com.hana4.demo.domain.User;
+
+@Repository
+public class VolatileUserRepository implements UserRepository {
 
 	final Map<Long, User> users = new HashMap<>();
 
-	public VolatileUserRepository(){
+	public VolatileUserRepository() {
 		initialize();
 	}
 
-	public void initialize(){
+	public void initialize() {
 		users.clear();
 		User user = new User(1L, "Kim");
-		users.put(user.getId(),user);
+		users.put(user.getId(), user);
 	}
 
 	@Override
@@ -33,8 +36,8 @@ public class VolatileUserRepository implements UserRepository{
 		final Set<Long> userIds = users.keySet();   // ctrl+alt+v
 		Long maxId = userIds.stream().max(Long::compare).orElse(0L);
 
-		users.put(maxId+1, user);
-		return maxId+1;
+		users.put(maxId + 1, user);
+		return maxId + 1;
 	}
 
 	@Override
@@ -55,7 +58,7 @@ public class VolatileUserRepository implements UserRepository{
 	}
 
 	@Override
-	public Optional<User> findByName(String name){
+	public Optional<User> findByName(String name) {
 		return users.values().stream().filter(user -> user.getName().equals(name)).findAny();
 	}
 }
