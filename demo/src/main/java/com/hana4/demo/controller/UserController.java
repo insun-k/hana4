@@ -6,6 +6,7 @@ import java.util.Optional;
 
 import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,12 @@ public class UserController {
 		this.service = service;
 	}
 
+	@GetMapping("/list")
+	public String userList(Model model) {
+		model.addAttribute("users", service.getList());
+		return "user/list";
+	}
+
 	@GetMapping("")
 	@ResponseBody
 	public List<User> getUsers() {
@@ -47,6 +54,12 @@ public class UserController {
 		} else {
 			throw new BadRequestException("Insert Error");
 		}
+	}
+
+	@PostMapping("/add")
+	public String addUser(@RequestBody User user) {
+		System.out.println("user = " + user);
+		return "redirect:/users/list";
 	}
 
 	@GetMapping("/{id}")
