@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +19,7 @@ public class MainController {
 
 	private final MainService service;
 
-	@Autowired
+	// @Autowired  요즘 생략
 	public MainController(MainService service) {
 		this.service = service;
 	}
