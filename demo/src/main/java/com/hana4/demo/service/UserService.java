@@ -3,16 +3,15 @@ package com.hana4.demo.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.springframework.stereotype.Service;
-
 import com.hana4.demo.domain.User;
 import com.hana4.demo.repository.UserRepository;
 
-@Service
+// @Service  => config에 등록해서 생략 가능
 public class UserService {
 
 	private final UserRepository repository;
 
+	// 의존성 주입
 	public UserService(UserRepository repository) {
 		this.repository = repository;
 	}
