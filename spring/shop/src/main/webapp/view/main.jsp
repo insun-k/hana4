@@ -26,17 +26,24 @@
             <li class='<c:if test="${status.first}">XXX</c:if>'>
                 <a href="/modify/${cust.id}" class="hover:text-blue-500">
                         ${status.count} - ${cust.id}. ${cust.name}</a>
-                <a href="/remove/${cust.id}">Remove</a>
+                <a href="javascript:del(${cust.id})">Remove</a>
             </li>
-
-
         </c:forEach>
+
         <c:if test="${custs.size() == 0}">
             <p>There is no custs</p>
         </c:if>
     </ul>
 
     <div><a href="/add" class="underline text-blue-500">Add Cust</a></div>
+
+    <script>
+        function del(id) {
+            if (confirm("Are u sure??")) {
+                window.location.href = `/remove/` + id;
+            }
+        }
+    </script>
 </div>
 </body>
 </html>

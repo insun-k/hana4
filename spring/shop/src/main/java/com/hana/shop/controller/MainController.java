@@ -51,6 +51,10 @@ public class MainController {
 	@PostMapping("/add")
 	public String add(CustDTO cust) {
 		System.out.println("cust = " + cust);
+		// email은 optional 처리 (null)
+		if (cust.getEmail().isBlank()) {
+			cust.setEmail(null);
+		}
 		int insertId = service.addCust(cust);
 		return "redirect:/?insertId=" + insertId;
 	}
@@ -62,10 +66,21 @@ public class MainController {
 		return "modify";
 	}
 
-	// @GetMapping("/remove/{id}")
-	// public String remove(@PathVariable("id") Integer id, Model model) {
-	// 	CustDTO cust = service.remove(id);
-	// 	model.addAttribute("cust", cust);
-	// 	return "remove";
-	// }
+	@PostMapping("/modify/{id}")
+	public String update(CustDTO cust) {
+		service.modify(cust);
+		return "redirect:/";
+	}
+
+	@GetMapping("/remove/{id}")
+	public String remove(@PathVariable("id") Integer id, Model model) {
+		CustDTO cust = service.find(id);
+		if (cust == null) {
+			model.addAttribute("data", "Cust(#" + id + ")");
+			model.addAttribute("message", "해당 고객이 없습니다!");
+			return "not-found";
+		}
+		service.remove(id);
+		return "redirect:/";
+	}
 }

@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!--CRUD-->
 <mapper namespace="com.hana.shop.dao.CustDAO">
+    <!--    insert 방법 1 (선호)-->
+    <insert id="insert" parameterType="CustDTO">
+        insert into Cust(name, tel, email)
+        values (#{name}, #{tel}, #{email})
+    </insert>
+
+    <!--    insert 방법 2-->
+    <!--    <insert id="insert" parameterType="CustDTO">-->
+    <!--        insert into Cust(name, tel, email)-->
+    <!--        values (#{name}, #{tel}, #{email})-->
+    <!--        <selectKey order="AFTER" keyColumn="id" keyProperty="id" resultType="Integer">-->
+    <!--            select last_insert_id()-->
+    <!--        </selectKey>-->
+    <!--    </insert>-->
+
     <select id="getCusts" resultType="CustDTO">
         select id, name, tel
         from Cust
@@ -12,4 +28,18 @@
         from Cust
         where id = #{id}
     </select>
+
+    <update id="update" parameterType="custDTO">
+        update Cust
+        set name = #{name},
+            tel  = #{tel}
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="Integer">
+        delete
+        from Cust
+        where id = #{id}
+    </delete>
+
 </mapper>

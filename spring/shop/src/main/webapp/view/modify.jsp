@@ -11,7 +11,7 @@
 
 <body>
 <h1 class="text-2xl">Modify Cust</h1>
-<form action="${pageContext.request.contextPath}modify" method="POST">
+<form action="${pageContext.request.contextPath}/modify/${cust.id}" method="POST">
     <label for="name">Name:
         <input type="text" id="name" name="name" value="${cust.name}">
     </label>

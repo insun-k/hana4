@@ -19,11 +19,12 @@ public class MainService {
 	}
 
 	public int addCust(CustDTO cust) {
-		int maxId = custs.size();
-		cust.setId(maxId + 1);
-		custs.add(cust);
-
-		return maxId;
+		// int maxId = custs.size();
+		// cust.setId(maxId + 1);
+		// custs.add(cust);
+		//
+		// return maxId;
+		return dao.insert(cust);
 	}
 
 	public List<CustDTO> getCusts() {
@@ -33,5 +34,13 @@ public class MainService {
 	public CustDTO find(int id) {
 		// return custs.get(id - 1);
 		return dao.getCust(id);
+	}
+
+	public void modify(CustDTO cust) {
+		dao.update(cust);
+	}
+
+	public void remove(Integer id) {
+		dao.delete(id);
 	}
 }
