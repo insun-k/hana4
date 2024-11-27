@@ -50,13 +50,13 @@ public class MainController {
 
 	@PostMapping("/add")
 	public String add(CustDTO cust) {
-		System.out.println("cust = " + cust);
 		// email은 optional 처리 (null)
 		if (cust.getEmail().isBlank()) {
 			cust.setEmail(null);
 		}
 		int insertId = service.addCust(cust);
-		return "redirect:/?insertId=" + insertId;
+		System.out.println("cust = " + cust);
+		return "redirect:/?insertId=" + cust.getId();
 	}
 
 	@GetMapping("/modify/{id}")
@@ -83,4 +83,5 @@ public class MainController {
 		service.remove(id);
 		return "redirect:/";
 	}
+
 }

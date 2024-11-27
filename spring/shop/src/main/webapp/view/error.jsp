@@ -10,17 +10,12 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>${data} Not Found$</title>
+    <title>Error</title>
 </head>
 <body>
-<h1>${data} Not Found$</h1>
-<c:if test="${message != null}">
-    <div>${message}</div>
-</c:if>
-
+<h1 class="text-3xl font-bold">${message}</h1>
 <div>
-    <a href="${pageContext.request.contextPath}/">Home</a>
-
+    <a href="javascript:history.back()">Go Back</a>
 </div>
 </body>
 </html>
