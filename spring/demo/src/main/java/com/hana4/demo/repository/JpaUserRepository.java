@@ -65,5 +65,8 @@ public class JpaUserRepository implements UserRepository {
 	}
 
 	public void initialize() {
+		String truncSql = "truncate table DemoUser";
+		// query 실행
+		em.createNativeQuery(truncSql).executeUpdate();
 	}
 }
