@@ -74,10 +74,14 @@ public class UserController {
 		}
 	}
 
-	private void checkExists(Long id, HttpServletResponse response) throws IOException {
-		if (service.getUser(id).isEmpty()) {
+	private User checkExists(Long id, HttpServletResponse response) throws IOException {
+		Optional<User> user = service.getUser(id);
+		if (user.isEmpty()) {
 			response.sendError(404, "User not found!");
+			return null;
 		}
+
+		return user.get();
 	}
 
 	// 수정
@@ -87,11 +91,23 @@ public class UserController {
 	@ResponseBody
 	public User updateUser(@PathVariable("id") Long id, @RequestBody User user, HttpServletResponse res) throws
 		IOException {
+		System.out.println("user00 = " + user);
 		System.out.println("id = " + id);
 		user.setId(id);
-		checkExists(user.getId(), res);
-		System.out.println("user = " + user);
-		return service.updateUser(user);
+		System.out.println("user11 = " + user);
+		// => 이때의 user는 persistence context에서 만든 user아 아님!!
+		// => 컨트롤러가 만든 객체 => entity Object!! => 맨 위에 사진 참고
+
+		User attachedUser = checkExists(user.getId(), res);
+		assert attachedUser != null;
+		// if (attachedUser == null) {
+		// 	res.sendError(404);
+		// 	return null;
+		// }
+
+		// setName을 안하면 update 반영이 됨
+		attachedUser.setName(user.getName());
+		return service.updateUser(attachedUser);
 	}
 
 	@DeleteMapping("/{id}")
