@@ -2,6 +2,8 @@ package com.hana4.demo.domain;
 
 import org.hibernate.annotations.Comment;
 
+import com.hana4.demo.DTO.UserDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,9 +11,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "DemoUser")
+@Getter
+@Setter
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,27 +55,8 @@ public class User {
 		this.age = age;
 	}
 
-	public Long getId() {
-		return id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String toString() {
-		return "User{" +
-			"id=" + id +
-			", name='" + name + '\'' +
-			'}';
+	// ApiServiceImpl에서 반복돼서 함수로 만듦
+	public UserDTO toDTO() {
+		return UserDTO.builder().id(id).name(name).age(age).build();
 	}
 }

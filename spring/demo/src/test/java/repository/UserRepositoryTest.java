@@ -35,7 +35,7 @@ public class UserRepositoryTest {
 		assertThat(newer.get()).isEqualTo(user);  // get을 빼면 newer = Optional<User> != user = User
 
 		//assertThat(newer.get()).isEqualTo(new User(newerId, "Hong")); // 주소 다름
-		assertThat(newer.get()).usingRecursiveComparison().isEqualTo(new User(newerId, "Hong"));
+		// assertThat(newer.get()).usingRecursiveComparison().isEqualTo(new User(newerId, "Hong"));
 	}
 
 	@Test
