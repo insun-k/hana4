@@ -19,10 +19,12 @@ public class SpringConfig {
 
 	private final EntityManager em;
 	private final ApiRepository apiRepository;
+	// private final PostRepository postRepository;
 
 	public SpringConfig(EntityManager em, ApiRepository apiRepository) {
 		this.em = em;
 		this.apiRepository = apiRepository;
+		// this.postRepository = postRepository;
 	}
 
 	@Bean
@@ -43,5 +45,10 @@ public class SpringConfig {
 	public ApiDAO apiDAO() {
 		return new ApiDAOImpl(apiRepository);
 	}
+
+	// @Bean
+	// public PostDAO postDAO() {
+	// 	return new PostDAOImpl(postRepository);
+	// }
 
 }

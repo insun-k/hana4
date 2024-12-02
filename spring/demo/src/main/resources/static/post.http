@@ -1,0 +1,29 @@
+GET http://localhost:8080/posts
+Accept: application/json
+
+
+### regist
+POST http://localhost:8080/posts
+Content-Type: application/json
+
+{
+  "title": "ins",
+  "writer": "writer1",
+  "body": "가나다라ㅏ마"
+}
+
+### get a post
+GET http://localhost:8080/posts/843e6df8-dd44-4d63-a5d0-1ed858526c4c
+
+### update post
+PATCH http://localhost:8080/posts/246da926-a91b-4fde-b5ae-467038cae4c5
+Content-Type: application/json
+
+{
+  "title": "New",
+  "writer": "writerNew"
+}
+
+
+### delete
+DELETE http://localhost:8080/posts/246da926-a91b-4fde-b5ae-467038cae4c5
