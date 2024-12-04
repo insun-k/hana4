@@ -5,9 +5,9 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.hana4.demo.DAO.ApiDAO;
-import com.hana4.demo.DTO.UserDTO;
+import com.hana4.demo.dao.ApiDAO;
 import com.hana4.demo.domain.User;
+import com.hana4.demo.dto.UserDTO;
 
 @Service
 public class ApiServiceImpl implements ApiService {

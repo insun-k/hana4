@@ -2,6 +2,8 @@ package com.hana4.demo.controller;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,12 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hana4.demo.DTO.PostDTO;
+import com.hana4.demo.dto.PostDTO;
 import com.hana4.demo.service.PostService;
 
 @RestController
 @RequestMapping("/posts")
 public class PostController {
+	private final Logger logger = LoggerFactory.getLogger(PostController.class);
+
 	private final PostService service;
 
 	public PostController(PostService service) {
@@ -26,6 +30,9 @@ public class PostController {
 
 	@GetMapping("")
 	public List<PostDTO> getPosts() {
+		logger.debug("dedededededededee-postcontroller!!!");
+		logger.info("dddddddddddddddddd-postcontroller!!!");
+		logger.error("eeeeeeeeeeeeeeeee-postcontroller!!!");
 		return service.getPosts();
 	}
 

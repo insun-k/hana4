@@ -1,13 +1,13 @@
-package com.hana4.demo.DAO;
+package com.hana4.demo.dao;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
-import com.hana4.demo.DTO.PostDTO;
-import com.hana4.demo.DTO.PostMapper;
 import com.hana4.demo.domain.Post;
+import com.hana4.demo.dto.PostDTO;
+import com.hana4.demo.dto.PostMapper;
 import com.hana4.demo.repository.PostRepository;
 
 @Repository

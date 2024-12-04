@@ -1,4 +1,4 @@
-package service;
+package com.hana4.demo.service;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import com.hana4.demo.domain.User;
 import com.hana4.demo.repository.UserRepository;
 import com.hana4.demo.repository.VolatileUserRepository;
-import com.hana4.demo.service.UserService;
 
 class UserServiceTest {
 	private UserRepository repository;

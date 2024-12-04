@@ -1,8 +1,8 @@
-package com.hana4.demo.DAO;
+package com.hana4.demo.dao;
 
 import java.util.List;
 
-import com.hana4.demo.DTO.PostDTO;
+import com.hana4.demo.dto.PostDTO;
 
 public interface PostDAO {
 	public List<PostDTO> selectAll();

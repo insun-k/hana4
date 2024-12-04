@@ -1,4 +1,4 @@
-package com.hana4.demo.DTO;
+package com.hana4.demo.dto;
 
 import java.time.LocalDateTime;
 

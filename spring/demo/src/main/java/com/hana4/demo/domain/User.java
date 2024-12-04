@@ -2,7 +2,7 @@ package com.hana4.demo.domain;
 
 import org.hibernate.annotations.Comment;
 
-import com.hana4.demo.DTO.UserDTO;
+import com.hana4.demo.dto.UserDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

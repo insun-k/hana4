@@ -2,7 +2,7 @@ package com.hana4.demo.service;
 
 import java.util.List;
 
-import com.hana4.demo.DTO.UserDTO;
+import com.hana4.demo.dto.UserDTO;
 
 public interface ApiService {
 	public List<UserDTO> getUsers();

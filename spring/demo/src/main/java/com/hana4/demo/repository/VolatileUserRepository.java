@@ -59,4 +59,9 @@ public class VolatileUserRepository implements UserRepository {
 	public Optional<User> findByName(String name) {
 		return users.values().stream().filter(user -> user.getName().equals(name)).findAny();
 	}
+
+	@Override
+	public void destory() {
+
+	}
 }

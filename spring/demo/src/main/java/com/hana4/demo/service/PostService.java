@@ -2,7 +2,7 @@ package com.hana4.demo.service;
 
 import java.util.List;
 
-import com.hana4.demo.DTO.PostDTO;
+import com.hana4.demo.dto.PostDTO;
 
 public interface PostService {
 	public List<PostDTO> getPosts();

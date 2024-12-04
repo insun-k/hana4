@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.hana4.demo.DTO.UserDTO;
+import com.hana4.demo.dto.UserDTO;
 import com.hana4.demo.service.ApiService;
 
 @RestController

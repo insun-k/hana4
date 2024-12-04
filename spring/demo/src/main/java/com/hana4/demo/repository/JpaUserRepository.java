@@ -64,9 +64,28 @@ public class JpaUserRepository implements UserRepository {
 		return users.stream().findAny();
 	}
 
+	@Override
 	public void initialize() {
-		String truncSql = "truncate table DemoUser";
+		String[] sqls = new String[] {
+			"create table DemoUserBak AS select * from DemoUser",
+			"truncate table DemoUser"
+		};
 		// query 실행
-		em.createNativeQuery(truncSql).executeUpdate();
+		for (String sql : sqls) {
+			em.createNativeQuery(sql).executeUpdate();
+		}
+	}
+
+	@Override
+	public void destory() {
+		String[] sqls = new String[] {
+			"truncate table DemoUser",
+			"insert into DemoUser select * from DemoUser",
+			"truncate table DemoUserBak"
+		};
+		// query 실행
+		for (String sql : sqls) {
+			em.createNativeQuery(sql).executeUpdate();
+		}
 	}
 }

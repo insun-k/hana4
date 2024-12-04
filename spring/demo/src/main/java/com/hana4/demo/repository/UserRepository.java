@@ -20,4 +20,5 @@ public interface UserRepository {
 
 	void initialize();
 
+	void destory();
 }

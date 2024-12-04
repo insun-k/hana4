@@ -1,10 +1,10 @@
-package com.hana4.demo.DAO;
+package com.hana4.demo.dao;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.hana4.demo.DTO.UserDTO;
 import com.hana4.demo.domain.User;
+import com.hana4.demo.dto.UserDTO;
 import com.hana4.demo.repository.ApiRepository;
 
 public class ApiDAOImpl implements ApiDAO {

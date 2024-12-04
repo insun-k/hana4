@@ -3,8 +3,8 @@ package com.hana4.demo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.hana4.demo.DAO.ApiDAO;
-import com.hana4.demo.DAO.ApiDAOImpl;
+import com.hana4.demo.dao.ApiDAO;
+import com.hana4.demo.dao.ApiDAOImpl;
 import com.hana4.demo.repository.ApiRepository;
 import com.hana4.demo.repository.JpaUserRepository;
 import com.hana4.demo.repository.UserRepository;

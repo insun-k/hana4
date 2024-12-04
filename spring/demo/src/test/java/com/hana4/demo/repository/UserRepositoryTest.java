@@ -1,4 +1,4 @@
-package repository;
+package com.hana4.demo.repository;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -9,8 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.hana4.demo.domain.User;
-import com.hana4.demo.repository.UserRepository;
-import com.hana4.demo.repository.VolatileUserRepository;
 
 public class UserRepositoryTest {
 

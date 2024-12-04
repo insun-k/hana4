@@ -6,7 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.hana4.demo.DTO.PostDTO;
+import com.hana4.demo.dto.PostDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.hana4.demo.DAO.PostDAO;
-import com.hana4.demo.DTO.PostDTO;
+import com.hana4.demo.dao.PostDAO;
+import com.hana4.demo.dto.PostDTO;
 
 @Service
 public class PostServiceImpl implements PostService {

@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.coyote.BadRequestException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +26,7 @@ import jakarta.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/users")
 public class UserController {
+	private Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	private final UserService service;
 
@@ -40,6 +43,13 @@ public class UserController {
 	@GetMapping("")
 	@ResponseBody
 	public List<User> getUsers() {
+
+		// logback-spring.xml에 root를 info로 설정해서 info, warn, error만 보임
+		logger.trace("tttttttttrace!!");
+		logger.debug("ddddddddddug!!");
+		logger.info("iiiiiiiinfo!!");
+		logger.warn("wwwwwwwwwarn!!");
+		logger.error("eeeeeeeerror!!");
 		return service.getList();
 	}
 
