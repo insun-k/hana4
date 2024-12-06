@@ -31,6 +31,21 @@ public class PostRespositoryTest {
 	private final static LocalDateTime dateTime = LocalDateTime.of(LocalDate.of(2024, 12, 6), LocalTime.of(12, 0));
 	private final static String WRITER = "세종대왕11";
 
+	@Test
+	void findByOldWriterTest() {
+		List<Post> posts = repository.findByOldWriter(WRITER, dateTime);
+		assertThat(posts.stream().allMatch(post ->
+			post.getWriter().equals(WRITER) &&
+				post.getCreatedate().isBefore(dateTime) || post.getCreatedate().isEqual(dateTime))).isTrue();
+	}
+
+	@Test
+	void findBySomeColumnsTest() {
+		List<Object[]> someColumns = repository.findBySomeColumns(WRITER);
+		someColumns.forEach(objs -> System.out.println(objs[0] + "," + objs[1] + "," + objs[2]));
+		someColumns.forEach(objs -> assertThat(objs[1]).isEqualTo(WRITER));
+	}
+
 	// jpa2 - Paging 테스트
 	@Test
 	void findByTitleLikeTest() {

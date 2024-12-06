@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import com.hana4.demo.domain.Post;
 
@@ -24,4 +26,12 @@ public interface PostRepository extends JpaRepository<Post, String> {
 	Page<Post> findByTitleLike(String title, Pageable pageable);
 
 	long countByTitleLike(String title);
+
+	@Query("""
+				select p from Post p where p.writer = :writer and p.createdate <= :dateTime
+		""")
+	List<Post> findByOldWriter(@Param("writer") String writer, @Param("dateTime") LocalDateTime dateTime);
+
+	@Query("select p.title, p.writer, p.createdate from Post p where p.writer = :writer")
+	List<Object[]> findBySomeColumns(@Param("writer") String writer);
 }
