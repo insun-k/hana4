@@ -2,8 +2,8 @@ package com.hana4.demo.domain;
 
 import java.time.LocalDateTime;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.hana4.demo.dto.PostDTO;
@@ -36,12 +36,12 @@ public class Post {
 	@Column(nullable = false, length = 50)
 	private String writer;
 
-	@CreatedDate
-	@Column(nullable = false)
+	@CreationTimestamp
+	@Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime createdate;
 
-	@LastModifiedDate
-	@Column(nullable = false)
+	@UpdateTimestamp
+	@Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP")
 	private LocalDateTime workdate;
 
 	@Column(columnDefinition = "text") // 긴 텍스트 데이터

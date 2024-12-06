@@ -67,7 +67,7 @@ public class JpaUserRepository implements UserRepository {
 	@Override
 	public void initialize() {
 		String[] sqls = new String[] {
-			"create table DemoUserBak AS select * from DemoUser",
+			"create table if not exists DemoUserBak AS select * from DemoUser",
 			"truncate table DemoUser"
 		};
 		// query 실행

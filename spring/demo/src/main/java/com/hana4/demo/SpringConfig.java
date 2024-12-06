@@ -14,6 +14,9 @@ import com.hana4.demo.repository.JpaUserRepository;
 import com.hana4.demo.repository.UserRepository;
 import com.hana4.demo.service.UserService;
 
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
 import jakarta.persistence.EntityManager;
 
 @Configuration
@@ -60,6 +63,20 @@ public class SpringConfig {
 		SessionLocaleResolver sessionResolver = new SessionLocaleResolver();
 		sessionResolver.setDefaultLocale(Locale.KOREAN);
 		return sessionResolver;
+	}
+
+	@Bean
+	public OpenAPI openAPI() {
+		return new OpenAPI()
+			.components(new Components())
+			.info(info());
+	}
+
+	private Info info() {
+		return new Info()
+			.version("0.1.0")
+			.title("Demo Api Spec.")
+			.description("...");
 	}
 
 }

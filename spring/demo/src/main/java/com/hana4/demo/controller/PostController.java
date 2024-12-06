@@ -40,7 +40,7 @@ public class PostController {
 	public PostDTO getPost(@PathVariable("id") String id) {
 		return service.getPost(id);
 	}
-
+	
 	@PostMapping("")
 	public ResponseEntity<PostDTO> addPost(@RequestBody PostDTO post) {
 		return ResponseEntity.ok(service.addPost(post));
