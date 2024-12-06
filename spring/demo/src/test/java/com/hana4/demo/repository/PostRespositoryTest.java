@@ -11,6 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import com.hana4.demo.domain.Post;
 
@@ -27,6 +30,23 @@ public class PostRespositoryTest {
 
 	private final static LocalDateTime dateTime = LocalDateTime.of(LocalDate.of(2024, 12, 6), LocalTime.of(12, 0));
 	private final static String WRITER = "세종대왕11";
+
+	// jpa2 - Paging 테스트
+	@Test
+	void findByTitleLikeTest() {
+		final int countPerPage = 3;
+		final String searchStr = "title%";
+		long cnt = (long)Math.ceil((double)repository.countByTitleLike(searchStr) / countPerPage);
+
+		// 작성자순 + id 역순
+		Sort sort = Sort.by(Sort.Order.asc("writer"), Sort.Order.desc("id"));
+
+		Page<Post> posts = repository.findByTitleLike(searchStr, PageRequest.of(0, countPerPage, sort));
+		System.out.println("posts = " + posts.getContent());
+		System.out.println("posts = " + posts.getTotalPages());
+		assertThat(posts.getTotalPages()).isEqualTo(cnt);
+		posts.forEach(System.out::println);
+	}
 
 	// jpa2 - QueryMethod 테스트
 	@Test
@@ -45,11 +65,16 @@ public class PostRespositoryTest {
 	}
 
 	@Test
-	void findWriterEqualTest() {
+	void findByWriterEqualTest() {
 		List<Post> byWriter = repository.findByWriter(WRITER);
 		System.out.println("byWriter = " + byWriter);
 		assertThat(byWriter.stream().allMatch(post -> post.getWriter().equals(WRITER))).isTrue();
 
+		// id 역순 출력
+		Sort sort = Sort.by(Sort.Order.desc("id"));
+		List<Post> byWriterSort = repository.findByWriter(WRITER, sort);
+
+		byWriterSort.forEach(System.out::println);
 	}
 
 	@Test
