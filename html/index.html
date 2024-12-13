@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>First HTML Page</title>
+    <link rel="stylesheet" href="a.css">
+  </head>
+
+  <body>
+    <div class="container">
+      <header class="haeder">
+        <h1 id="hhh">Header</h1>
+      </header>
+
+      <form action="a.html">
+        <fieldset>
+          <legend>Select Box</legend>
+          <select name="sel" id="sel">
+            <option value="111">111x</option>
+            <option value="222">222x</option>
+            <option value="333">333x</option>
+          </select>
+
+          <input type="text" id="captain" list="member" />
+          <datalist id="member">
+            <option value="111">111x</option>
+            <option value="222">222x</option>
+            <option value="333">333x</option>
+          </datalist>
+
+          <input type="search" >
+          <input type="number" >
+          <progress value="50" max="100">진행률</progress>
+          <meter value="0.6" min="0.2" max="0.9" optimum="0.8">
+        </fieldset>
+
+        <fieldset>
+          <legend>Checkbox</legend>
+          <ul class="checkgroup">
+            <!--리스트 스타일 제거(글머리 기호 제거)-->
+            <li>
+              <!--label 씌우면 BlueTeam 눌러도 체크 가능-->
+              <label><input type="checkbox" value="blue" />BlueTeam</label>
+            </li>
+            <li>
+              <label><input type="checkbox" value="red" />RedTeam</label>
+            </li>
+          </ul>
+        </fieldset>
+
+        <fieldset>
+          <legend>Radio</legend>
+          <ul>
+            <li>
+              <label><input type="radio" name="team" />Blue</label>
+            </li>
+            <li>
+              <label><input type="radio" name="team" />Red</label>
+            </li>
+          </ul>
+        </fieldset>
+      </form>
+
+      <section>
+        <figure>
+          <figcaption><h2>FigCaption</h2></figcaption>
+          <table border="1">
+            <caption>
+              Caption
+            </caption>
+            <colgroup>
+              <col />
+              <col span="2" style="background-color: yellow" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>address</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>111</td>
+                <td>
+                  <a href="a.html" target="_blank">a.html</a>
+                </td>
+                <td>111</td>
+              </tr>
+              <tr>
+                <td>222</td>
+                <td>222</td>
+                <td>222</td>
+              </tr>
+              <tr>
+                <td>333</td>
+                <td>333</td>
+                <td>333</td>
+              </tr>
+            </tbody>
+          </table>
+        </figure>
+      </section>
+
+      <section data-id="1">
+        <h2>Section</h2>
+        <form action="a.html">
+          <label for="email">Email:</label>
+          <input type="email" id="email" />
+          <label for="passwd">
+            password: <input type="password" id="passwd" />
+          </label>
+          <button type="reset">Cancel</button>
+          <button type="submit">Sing In</button>
+        </form>
+      </section>
+
+      <footer style="font-size: 0.8rem">&copy; Hanaro</footer>
+    </div>
+  </body>
+</html>

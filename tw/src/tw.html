@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TailWind Playground</title>
+    <link rel="stylesheet" href="../dist/output.css" />
+  </head>
+  <body>
+    <div
+      class="h-36 hover:items-center flex mb-3 flex-col flex-wrap gap-3 justify-around flex-auto"
+    >
+      <div class="basis-1/2 bg-red-300">111</div>
+      <div class="basis-1/4 bg-blue-300">222</div>
+      <div class="bg-green-300">333</div>
+      <div class="basis-1/4 bg-gray-300">444</div>
+      <div class="bg-yellow-300">555</div>
+    </div>
+
+    <div class="grid grid-cols-3 gap-y-3">
+      <div class="w-32 bg-red-300 order-2">111</div>
+      <div class="w-32 bg-blue-300 order-3">222</div>
+      <div class="w-32 bg-green-300">333</div>
+      <div class="w-32 bg-gray-300">444</div>
+      <div class="w-32 bg-yellow-300">555</div>
+    </div>
+
+    <div class="m-3 p-3">
+      <button class="btn">btn</button>
+      <button class="btn btn-primary">Btn-Primary</button>
+      <button class="btn btn-danger">btn-danger</button>
+      <button class="btn btn-success">btn-success</button>
+    </div>
+
+    <div
+      class="containerx mx-autox h-dvh w-full min-w-full bg-center bg-cover"
+      style="
+        background-image: url(https://cdn.pixabay.com/photo/2023/09/28/07/18/oak-tree-8280839_640.jpg);
+      "
+    >
+      <h1 class="text-4xl text-white hover:text-black font-extrabold">Title</h1>
+
+      <ul class="border border-red-300 p-3 m-3">
+        <li class="text-blue-500 first:bg-red-50">111</li>
+        <li class="text-green-500 first:bg-red-50">222</li>
+        <li class="text-gray-500 last:bg-green-50">333</li>
+      </ul>
+
+      <div
+        class="bg-gradient-to-t via-white from-slate-300 to-blue-300 h-96 text-center"
+      >
+        <button
+          class="w-96 h-60 bg-green-300 text-3xl hover:bg-green-100 transition-a delay animate-pulse hover:scale-150 hover:rotate-45"
+        >
+          Animation
+        </button>
+        <button
+          class="mt-5 w-96 h-60 bg-blue-300 text-3xl hover:bg-green-100 translate-x-4 skew-y-3"
+        >
+          Animation
+        </button>
+      </div>
+    </div>
+  </body>
+</html>
