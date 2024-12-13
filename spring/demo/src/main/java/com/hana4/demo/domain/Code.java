@@ -1,5 +1,6 @@
 package com.hana4.demo.domain;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -9,6 +10,9 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -45,5 +49,15 @@ public class Code extends BaseEntity {
 	//데이터가 크면 LAZY
 	@OneToMany(mappedBy = "code", fetch = FetchType.EAGER)
 	private List<SubCode> subCodes;
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "CodeUser", joinColumns = @JoinColumn(name = "code"),
+		inverseJoinColumns = @JoinColumn(name = "user"))
+	private List<User> codeUsers = new ArrayList<>();  // null 방지
+
+	public synchronized void addUser(User user) {
+		System.out.println("this.codeUsers = " + this.codeUsers);
+		this.codeUsers.add(user);
+	}
 
 }
